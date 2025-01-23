@@ -1,6 +1,7 @@
 import './App.css'
 import { EventList } from './components/EventList'
 import React, { useState } from 'react';
+import { SearchBar } from './components/SearchBar';
 
 function App() {
 
@@ -9,12 +10,16 @@ function App() {
   
   //for testing
   //params: id, name, tag, paginate, page, limit
-  const [searchParams, setSearchParams] = useState({paginate: true, page: 3, limit: 2})
+  const [searchParams, setSearchParams] = useState({paginate:true});
+
+  const [eventCount, setEventCount] = useState(0);
   
 
   return (
     <>
-      <EventList searchParams={searchParams} setSearchParams={setSearchParams} setError={setError}/>
+      <SearchBar searchParams={searchParams} setSearchParams={setSearchParams} setError={setError}/>
+      <p>We have {eventCount} events</p>
+      <EventList searchParams={searchParams} setSearchParams={setSearchParams} setEventCount={setEventCount} setError={setError}/>
     </>
   )
 }

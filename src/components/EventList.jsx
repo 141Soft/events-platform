@@ -1,19 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { EventThumb } from "./EventThumb";
-import { getEvents } from "../../api";
+import { getEvents } from "../api";
 
-export const EventList = ({ searchParams, setSearchParams, setError }) => {
+export const EventList = ({ searchParams, setSearchParams, setEventCount, setError }) => {
 
     const [events, setEvents] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [totalPages, setTotalPages] = useState(1);
+    const [pageRef, setPageRef] = useState(1);
     useEffect(()=> {
         const loadData = async() => {
             try {
                 const data = await getEvents(searchParams);
                 setEvents(data.events);
                 setIsLoading(false);
-                setTotalPages(data.pagination.totalPages);
+                setTotalPages(data.pagination?.totalPages);
+                setPageRef(data.pagination.page);
+                setEventCount(data.pagination.count);
             } catch (err) {
                 console.error(err)
                 throw err;
@@ -62,7 +65,7 @@ export const EventList = ({ searchParams, setSearchParams, setError }) => {
                 </ul>
                 <button aria-label="Previous Page" data-operation='decrement' onClick={pageNavigate}>{'<'}</button>
                 <button aria-label="Next Page" data-operation='increment' onClick={pageNavigate}>{'>'}</button>
-                <p>{searchParams.page} of {totalPages}</p>
+                <p>{pageRef} of {totalPages}</p>
             </div>
         )
     }
