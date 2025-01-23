@@ -2,18 +2,18 @@ import React, { useEffect, useState } from "react";
 import { EventThumb } from "./EventThumb";
 import { getEvents } from "../../api";
 
-
-export const EventList = ({ searchParams, setError }) => {
+export const EventList = ({ searchParams, setSearchParams, setError }) => {
 
     const [events, setEvents] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
-
+    const [totalPages, setTotalPages] = useState(1);
     useEffect(()=> {
         const loadData = async() => {
             try {
                 const data = await getEvents(searchParams);
                 setEvents(data.events);
                 setIsLoading(false);
+                setTotalPages(data.pagination.totalPages);
             } catch (err) {
                 console.error(err)
                 throw err;
@@ -21,6 +21,19 @@ export const EventList = ({ searchParams, setError }) => {
         }
         loadData();
     }, [searchParams]);
+
+    const pageNavigate = (e) => {
+        e.preventDefault();
+        if(e.currentTarget.getAttribute('data-operation') === 'decrement' && searchParams.page !== 1){
+            const newParams = {...searchParams};
+            newParams.page--;
+            setSearchParams({...newParams});
+        } else if(e.currentTarget.getAttribute('data-operation') === 'increment' && searchParams.page < totalPages){
+            const newParams = {...searchParams};
+            newParams.page++;
+            setSearchParams({...newParams});
+        }
+    }
 
     //Conditional on events array and fetched status
     if(events.length === 0 && !isLoading){
@@ -47,6 +60,9 @@ export const EventList = ({ searchParams, setError }) => {
                         )
                     }
                 </ul>
+                <button aria-label="Previous Page" data-operation='decrement' onClick={pageNavigate}>{'<'}</button>
+                <button aria-label="Next Page" data-operation='increment' onClick={pageNavigate}>{'>'}</button>
+                <p>{searchParams.page} of {totalPages}</p>
             </div>
         )
     }
