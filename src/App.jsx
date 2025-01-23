@@ -1,15 +1,19 @@
 import './App.css'
 import { EventList } from './components/EventList'
+import React, { useState } from 'react';
 
 function App() {
+
+  //For displaying errors in UI
+  const [error, setError] = useState();
   
   //for testing
-  const events =[{name:"Test1", stub:"Text"}, {name: "Test2", stub:"Text"}, {name: "Test3", stub:"Text"}]
+  const searchParams = {};
   
 
   return (
     <>
-      <EventList events={events}/>
+      <EventList searchParams={searchParams}/>
     </>
   )
 }

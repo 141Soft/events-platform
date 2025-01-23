@@ -1,12 +1,12 @@
 import React from "react";
 
-export const EventThumb = ({image, name, stub}) => {
+export const EventThumb = ({ event }) => {
 
 
     return (
         <div>
-            <p>{name}</p>
-            <p>{stub}</p>
+            <p>{event.eventName}</p>
+            <p>{event.eventStub}</p>
         </div>
     )
 }
