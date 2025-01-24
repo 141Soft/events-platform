@@ -28,13 +28,19 @@ export const EventList = ({ searchParams, setSearchParams, setEventCount, setErr
     const pageNavigate = (e) => {
         e.preventDefault();
         if(e.currentTarget.getAttribute('data-operation') === 'decrement' && searchParams.page !== 1){
-            const newParams = {...searchParams};
-            newParams.page--;
-            setSearchParams({...newParams});
+            setSearchParams(prev => (
+                {
+                ...prev,
+                page: prev.page - 1
+                }
+            ));
         } else if(e.currentTarget.getAttribute('data-operation') === 'increment' && searchParams.page < totalPages){
-            const newParams = {...searchParams};
-            newParams.page++;
-            setSearchParams({...newParams});
+            setSearchParams(prev => (
+                {
+                    ...prev,
+                    page: prev.page + 1
+                }
+            ))
         }
     }
 

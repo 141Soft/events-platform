@@ -19,3 +19,12 @@ export const getEvents = async (searchParams) => {
         console.error(err);
     }
 }
+
+export const getTags = async () => {
+    try{
+        const res = await serverApi.get('/events/tags');
+        return res.data;
+    } catch (err) {
+        console.error(err);
+    }
+}
