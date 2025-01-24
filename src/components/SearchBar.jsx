@@ -16,10 +16,11 @@ export const SearchBar = ({setSearchParams, setError}) => {
             setSearchTags(data.tags);
           } catch (err) {
             console.error(err);
+            setError(err.message || 'Tag loading failed');
           }
         }
         loadTags();
-      }, []);
+      }, [setSearchParams, setError]);
 
     //memoize and debounce to reduce api calls
     const debounceSearch = useCallback(
@@ -31,6 +32,12 @@ export const SearchBar = ({setSearchParams, setError}) => {
         }, 300),
         []
     )
+
+    useEffect(() => {
+        return () => {
+            debounceSearch.cancel();
+        }
+    }, [debounceSearch])
     
     const handleChange = (e) => {
         setValue(e.target.value);
@@ -62,7 +69,11 @@ export const SearchBar = ({setSearchParams, setError}) => {
                 <ul className="tags-list">
                     {searchTags.map((tag) => 
                         <li key={tag}>
-                            <button value={tag} onClick={handleClick} style={{ backgroundColor: activeTag === tag ? " #900C3F" : " #FFF8DC" }}>
+                            <button value={tag} 
+                                    onClick={handleClick}
+                                    aria-current={activeTag === tag ? "true" : undefined}
+                                    style={{ backgroundColor: activeTag === tag ? "#900C3F" : "#FFF8DC" 
+                                    }}>
                                 {tag}
                             </button>
                         </li>
