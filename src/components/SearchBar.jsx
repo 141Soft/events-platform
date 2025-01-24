@@ -7,6 +7,7 @@ export const SearchBar = ({setSearchParams, setError}) => {
 
     const [value, setValue] = useState("");
     const [searchTags, setSearchTags] = useState([]);
+    const [activeTag, setActiveTag] = useState('');
 
     useEffect(() => {
         const loadTags = async () => {
@@ -38,10 +39,20 @@ export const SearchBar = ({setSearchParams, setError}) => {
 
     const handleClick = (e) => {
         e.preventDefault();
-        setSearchParams(prev => ({
+        setSearchParams(prev => (
+            prev?.tag === e.target.value ?
+            {
+            ...prev,
+            tag: ''
+            } :
+            {
             ...prev,
             tag: e.target.value
-        }))
+            }
+        ))
+        setActiveTag(prev => (
+            prev === e.target.value ? '' : e.target.value
+        ))
     }
 
     return (
@@ -51,7 +62,7 @@ export const SearchBar = ({setSearchParams, setError}) => {
                 <ul className="tags-list">
                     {searchTags.map((tag) => 
                         <li key={tag}>
-                            <button value={tag} onClick={handleClick}>
+                            <button value={tag} onClick={handleClick} style={{ backgroundColor: activeTag === tag ? " #900C3F" : " #FFF8DC" }}>
                                 {tag}
                             </button>
                         </li>

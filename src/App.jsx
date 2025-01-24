@@ -10,6 +10,7 @@ function App() {
   const [error, setError] = useState();
   
   //params: id, name, tag, paginate, page, limit
+  //pagination parameters are placed here for now
   const [searchParams, setSearchParams] = useState({paginate:true, limit:2, page: 1});
   const [eventCount, setEventCount] = useState(0);
 
