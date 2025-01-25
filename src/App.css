@@ -1,5 +1,45 @@
 
+@font-face {
+    font-family: 'CaskadyiaCoveNerdFontRegular';
+    src:url('./assets/CaskaydiaCoveNerdFont-Regular.woff') format('woff')
+}
 
+* {
+    font-family: CaskadyiaCoveNerdFontRegular, monospace;
+    color: white;
+}
+
+html, body {
+    padding: 0;
+    margin: 0;
+    background-color: #3c3836;
+    max-width: 100%;
+    overflow-x:hidden;
+    max-height: 100%;
+    overflow-y:hidden;
+}
+
+.tag {
+    background: #504945;
+    border-radius: 0.5rem;
+    border-color: transparent;
+}
+
+.tag.active {
+    background-color: #cc241d;
+    border-color: #cc241d;
+}
+
+.tags-list {
+    list-style-type: none;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.main-content{
+    width: 60vw;
+    margin: auto;
+}
 .event-list-container{}
 .event-list{}
 .event-list-entry{}

@@ -2,12 +2,11 @@ import './App.css'
 import { EventList } from './components/EventList'
 import React, { useEffect, useState } from 'react';
 import { SearchBar } from './components/SearchBar';
-import { getTags } from './api';
 
-function App() {
+export const App = () => {
 
   //For displaying errors in UI
-  const [error, setError] = useState();
+  const [error, setError] = useState()
   
   //params: id, name, tag, paginate, page, limit
   //pagination parameters are placed here for now
@@ -19,11 +18,11 @@ function App() {
 
   return (
     <>
+    <div className='main-content'>
       <SearchBar setSearchParams={setSearchParams} setError={setError}/>
       <p>We have {eventCount} events</p>
       <EventList searchParams={searchParams} setSearchParams={setSearchParams} setEventCount={setEventCount} setError={setError}/>
+    </div>
     </>
   )
 }
-
-export default App

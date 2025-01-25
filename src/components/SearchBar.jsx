@@ -72,8 +72,8 @@ export const SearchBar = ({setSearchParams, setError}) => {
                             <button value={tag} 
                                     onClick={handleClick}
                                     aria-current={activeTag === tag ? "true" : undefined}
-                                    style={{ backgroundColor: activeTag === tag ? "#900C3F" : "#FFF8DC" 
-                                    }}>
+                                    className={`tag ${activeTag === tag ? 'active' : ''}`}
+                                    >
                                 {tag}
                             </button>
                         </li>
