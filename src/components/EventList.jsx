@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef, useCallback } from "react";
 import { EventThumb } from "./EventThumb";
 import { getEvents } from "../api";
+import debounce from "lodash.debounce";
 
 export const EventList = ({ searchParams, setSearchParams, setEventCount, setError }) => {
 
@@ -8,6 +9,9 @@ export const EventList = ({ searchParams, setSearchParams, setEventCount, setErr
     const [isLoading, setIsLoading] = useState(true);
     const [totalPages, setTotalPages] = useState(1);
     const [pageRef, setPageRef] = useState(1);
+    const [middleIndex, setMiddleIndex] = useState(-1);
+    const listRef = useRef(null);
+
     useEffect(()=> {
         const loadData = async() => {
             try {
@@ -24,6 +28,19 @@ export const EventList = ({ searchParams, setSearchParams, setEventCount, setErr
         }
         loadData();
     }, [searchParams]);
+
+    const debounceScrollHandler = debounce(() => {
+        setEvents([...events]);
+    }, 50);
+
+    useEffect(() => {
+        //ensures re-render on scrolling event-list
+        if(listRef.current) {
+            listRef.current.addEventListener('scroll', debounceScrollHandler);
+            return () => listRef.current.removeEventListener('scroll', debounceScrollHandler);
+        }
+
+    }, [debounceScrollHandler]);
 
     const pageNavigate = (e) => {
         e.preventDefault();
@@ -45,8 +62,39 @@ export const EventList = ({ searchParams, setSearchParams, setEventCount, setErr
     }
 
     const handleWheel = (e) => {
-        e.currentTarget.scrollLeft += e.deltaY;
+        e.preventDefault();
+        listRef.current.scrollLeft += e.deltaY;
+
     }
+
+    
+    //Finding middle item for effects
+    useEffect(() => {
+        if (!listRef.current || events.length === 0) return;
+
+        const listRect = listRef.current.getBoundingClientRect();
+        const listCenter = listRect.left + listRect.width / 2;
+        
+        let closestIndex = -1;
+        let minDistance = Infinity;
+
+        events.forEach((event, index) => {
+            const itemRect = listRef.current.children[index].getBoundingClientRect();
+            const itemCenter = itemRect.left + itemRect.width / 2;
+            const distance = Math.abs(itemCenter - listCenter);
+            
+            if (distance < minDistance) {
+                minDistance = distance;
+                closestIndex = index;
+            }
+        });
+
+        if (closestIndex !== middleIndex) {
+            setMiddleIndex(closestIndex);
+        }
+    }, [events]);
+
+
 
     //Conditional on events array and fetched status
     if(events.length === 0 && !isLoading){
@@ -65,11 +113,13 @@ export const EventList = ({ searchParams, setSearchParams, setEventCount, setErr
         return (
             <div className="event-list-container" >
                 <p>{pageRef} of {totalPages}</p>
-                <ul className="event-list" onWheel={handleWheel}>
+                <ul className="event-list" onWheel={handleWheel} ref={listRef}>
                     {/* {events.length <= 1 ? '' : <li className={"event-list-entry item0"}></li>} */}
                     {
                         events.map((event, index) => 
-                            <li className={`event-list-entry item${index + 1}`} key={ event.id }>
+                            <li className={`event-list-entry ${index === middleIndex ? 'middle-item' : ''} ${index === middleIndex - 1 ? 'left-middle': ''} ${index === middleIndex + 1 ? 'right-middle': ''} ${index < middleIndex - 1 ? 'left': ''} ${index > middleIndex + 1 ? 'right': ''}`} 
+                                            
+                                            key={ event.id }>
                                 <EventThumb event={event}/>
                             </li>
                         )
