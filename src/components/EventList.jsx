@@ -44,6 +44,10 @@ export const EventList = ({ searchParams, setSearchParams, setEventCount, setErr
         }
     }
 
+    const handleWheel = (e) => {
+        e.currentTarget.scrollLeft += e.deltaY;
+    }
+
     //Conditional on events array and fetched status
     if(events.length === 0 && !isLoading){
         return (
@@ -59,10 +63,10 @@ export const EventList = ({ searchParams, setSearchParams, setEventCount, setErr
         )
     } else {
         return (
-            <div className="event-list-container">
+            <div className="event-list-container" >
                 <p>{pageRef} of {totalPages}</p>
-                <ul className="event-list">
-                    {events.length <= 1 ? '' : <li className={"event-list-entry item0"}></li>}
+                <ul className="event-list" onWheel={handleWheel}>
+                    {/* {events.length <= 1 ? '' : <li className={"event-list-entry item0"}></li>} */}
                     {
                         events.map((event, index) => 
                             <li className={`event-list-entry item${index + 1}`} key={ event.id }>
