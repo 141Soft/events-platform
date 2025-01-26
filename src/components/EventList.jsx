@@ -61,9 +61,10 @@ export const EventList = ({ searchParams, setSearchParams, setEventCount, setErr
         return (
             <div className="event-list-container">
                 <ul className="event-list">
+                    <li className={"event-list-entry item0"}></li>
                     {
-                        events.map((event) => 
-                            <li className="event-list-entry" key={ event.id }>
+                        events.map((event, index) => 
+                            <li className={`event-list-entry item${index + 1}`} key={ event.id }>
                                 <EventThumb event={event}/>
                             </li>
                         )

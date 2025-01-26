@@ -10,7 +10,7 @@ export const App = () => {
   
   //params: id, name, tag, paginate, page, limit
   //pagination parameters are placed here for now
-  const [searchParams, setSearchParams] = useState({paginate:true, limit:2, page: 1});
+  const [searchParams, setSearchParams] = useState({paginate:true, limit:5, page: 1});
   const [eventCount, setEventCount] = useState(0);
 
   
