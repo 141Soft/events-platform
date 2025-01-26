@@ -60,8 +60,9 @@ export const EventList = ({ searchParams, setSearchParams, setEventCount, setErr
     } else {
         return (
             <div className="event-list-container">
+                <p>{pageRef} of {totalPages}</p>
                 <ul className="event-list">
-                    <li className={"event-list-entry item0"}></li>
+                    {events.length <= 1 ? '' : <li className={"event-list-entry item0"}></li>}
                     {
                         events.map((event, index) => 
                             <li className={`event-list-entry item${index + 1}`} key={ event.id }>
@@ -70,9 +71,11 @@ export const EventList = ({ searchParams, setSearchParams, setEventCount, setErr
                         )
                     }
                 </ul>
-                <button aria-label="Previous Page" data-operation='decrement' onClick={pageNavigate}>{'<'}</button>
-                <button aria-label="Next Page" data-operation='increment' onClick={pageNavigate}>{'>'}</button>
-                <p>{pageRef} of {totalPages}</p>
+                <div className="event-list-nav">
+                    <button aria-label="Previous Page" data-operation='decrement' onClick={pageNavigate}>{'<'}</button>
+                    <button aria-label="Next Page" data-operation='increment' onClick={pageNavigate}>{'>'}</button>
+                </div>
+                
             </div>
         )
     }
