@@ -42,29 +42,12 @@ export const EventList = ({ searchParams, setSearchParams, setEventCount, setErr
 
     }, [debounceScrollHandler]);
 
-    const pageNavigate = (e) => {
-        e.preventDefault();
-        if(e.currentTarget.getAttribute('data-operation') === 'decrement' && searchParams.page !== 1){
-            setSearchParams(prev => (
-                {
-                ...prev,
-                page: prev.page - 1
-                }
-            ));
-        } else if(e.currentTarget.getAttribute('data-operation') === 'increment' && searchParams.page < totalPages){
-            setSearchParams(prev => (
-                {
-                    ...prev,
-                    page: prev.page + 1
-                }
-            ))
-        }
-    }
-
     //preventDefault doesn't work, needs some way to stop vertical scrolling
     const handleWheel = (e) => {
         e.preventDefault();
-        listRef.current.scrollLeft += e.deltaY/4;
+        if(listRef.current){
+            listRef.current.scrollLeft += e.deltaY/4;
+        }
     }
     
     //Finding middle item for effects
@@ -96,8 +79,7 @@ export const EventList = ({ searchParams, setSearchParams, setEventCount, setErr
 
     useEffect(() => {
         //infinite scroll
-
-        if (middleIndex === events.length - 1 && pageRef !== totalPages) {
+        if (middleIndex === events.length - 2 && pageRef !== totalPages && events.length !== 0) {
             const loadNextPage = async() => {
                 try {
                     const newSearchParams = {...searchParams};
@@ -114,45 +96,23 @@ export const EventList = ({ searchParams, setSearchParams, setEventCount, setErr
             }
             loadNextPage();
         }
-    }, [events]);
+    }, [middleIndex, pageRef, totalPages]);
 
 
 
     //Conditional on events array and fetched status
-    if(events.length === 0 && !isLoading){
-        return (
-            <div>
-                <p>Oops. Looks like we don't have any events to show.</p>
-            </div>
-        )
-    } else if (isLoading){
-        return (
-            <div>
-                <p>Placeholder loading status</p>
-            </div>
-        )
-    } else {
-        return (
-            <div className="event-list-container" >
-                <p>{pageRef} of {totalPages}</p>
-                <ul className="event-list" onWheel={handleWheel} ref={listRef}>
-                    {/* {events.length <= 1 ? '' : <li className={"event-list-entry item0"}></li>} */}
-                    {
-                        events.map((event, index) => 
-                            <li className={`event-list-entry ${index === middleIndex ? 'middle-item' : ''} ${index === middleIndex - 1 ? 'left-middle': ''} ${index === middleIndex + 1 ? 'right-middle': ''} ${index < middleIndex - 1 ? 'left': ''} ${index > middleIndex + 1 ? 'right': ''}`} 
-                                            
-                                            key={ event.id }>
-                                <EventThumb event={event}/>
-                            </li>
-                        )
-                    }
-                </ul>
-                <div className="event-list-nav">
-                    <button aria-label="Previous Page" data-operation='decrement' onClick={pageNavigate}>{'<'}</button>
-                    <button aria-label="Next Page" data-operation='increment' onClick={pageNavigate}>{'>'}</button>
-                </div>
-                
-            </div>
+    return (
+        <div className="event-list-container" >
+            <ul className="event-list" onWheel={handleWheel} ref={listRef}>
+                {
+                    events.map((event, index) => 
+                        <li className={`event-list-entry ${index === middleIndex ? 'middle-item' : ''} ${index === middleIndex - 1 ? 'left-middle': ''} ${index === middleIndex + 1 ? 'right-middle': ''} ${index < middleIndex - 1 ? 'left': ''} ${index > middleIndex + 1 ? 'right': ''}`}                 
+                                        key={ event.id }>
+                            <EventThumb event={event}/>
+                        </li>
+                    )
+                }
+            </ul>
+        </div>
         )
     }
-}
