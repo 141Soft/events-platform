@@ -71,8 +71,9 @@ html, body {
     box-shadow: 0 0.4rem 0.6rem #22201e;
     border-radius: 0.4rem;
     transition: transform 0.3s;
-    width: 12rem;
-    height: 10rem;
+    width: 15%;
+    height: 0rem;
+    padding-bottom: 15%;
 
     display: inline-block;
 }

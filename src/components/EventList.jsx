@@ -61,14 +61,14 @@ export const EventList = ({ searchParams, setSearchParams, setEventCount, setErr
         }
     }
 
+    //preventDefault doesn't work, needs some way to stop vertical scrolling
     const handleWheel = (e) => {
         e.preventDefault();
-        listRef.current.scrollLeft += e.deltaY;
-
+        listRef.current.scrollLeft += e.deltaY/4;
     }
-
     
     //Finding middle item for effects
+    //We should probably also scroll any non-middle item we click
     useEffect(() => {
         if (!listRef.current || events.length === 0) return;
 
@@ -91,6 +91,28 @@ export const EventList = ({ searchParams, setSearchParams, setEventCount, setErr
 
         if (closestIndex !== middleIndex) {
             setMiddleIndex(closestIndex);
+        }
+    }, [events]);
+
+    useEffect(() => {
+        //infinite scroll
+
+        if (middleIndex === events.length - 1 && pageRef !== totalPages) {
+            const loadNextPage = async() => {
+                try {
+                    const newSearchParams = {...searchParams};
+                    newSearchParams.page = pageRef + 1;
+                    const data = await getEvents(newSearchParams);
+                    setEvents(prev => [...prev, ...data.events]);
+                    setTotalPages(data.pagination?.totalPages);
+                    setPageRef(data.pagination?.page);
+                    setEventCount(data.pagination?.count);
+                } catch (err) {
+                    console.error(err)
+                    throw err;
+                }
+            }
+            loadNextPage();
         }
     }, [events]);
 
