@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef, useCallback } from "react";
 import { EventThumb } from "./EventThumb";
 import { getEvents } from "../api";
 import debounce from "lodash.debounce";
+import { EventView } from "./EventView";
 
 export const EventList = ({ searchParams, setSearchParams, setEventCount, setError }) => {
 
@@ -10,6 +11,7 @@ export const EventList = ({ searchParams, setSearchParams, setEventCount, setErr
     const [totalPages, setTotalPages] = useState(1);
     const [pageRef, setPageRef] = useState(1);
     const [middleIndex, setMiddleIndex] = useState(-1);
+    const [eventView, setEventView] = useState(null);
     const listRef = useRef(null);
 
     useEffect(()=> {
@@ -45,7 +47,7 @@ export const EventList = ({ searchParams, setSearchParams, setEventCount, setErr
     //preventDefault doesn't work, needs some way to stop vertical scrolling
     const handleWheel = (e) => {
         e.preventDefault();
-        if(listRef.current){
+        if(listRef.current && !eventView){
             listRef.current.scrollLeft += e.deltaY/4;
         }
     }
@@ -79,7 +81,9 @@ export const EventList = ({ searchParams, setSearchParams, setEventCount, setErr
 
     useEffect(() => {
         //infinite scroll
-        if (middleIndex === events.length - 2 && pageRef !== totalPages && events.length !== 0) {
+        console.log(middleIndex, pageRef, totalPages);
+        if (middleIndex === events.length - 1 && pageRef !== totalPages && events.length !== 0 && !isLoading) {
+            console.log("hit")
             const loadNextPage = async() => {
                 try {
                     const newSearchParams = {...searchParams};
@@ -96,23 +100,39 @@ export const EventList = ({ searchParams, setSearchParams, setEventCount, setErr
             }
             loadNextPage();
         }
-    }, [middleIndex, pageRef, totalPages]);
+    }, [middleIndex, pageRef, totalPages, isLoading]);
+
+    const handleClick = (e) => {
+        e.preventDefault();
+        //Check if this is the current card
+        const i = Number(e.currentTarget.getAttribute('index'));
+        if(i === middleIndex){
+            setEventView(events[i]);
+            console.log(eventView);
+        }
+    }
 
 
 
     //Conditional on events array and fetched status
     return (
+        <>
         <div className="event-list-container" >
             <ul className="event-list" onWheel={handleWheel} ref={listRef}>
                 {
                     events.map((event, index) => 
                         <li className={`event-list-entry ${index === middleIndex ? 'middle-item' : ''} ${index === middleIndex - 1 ? 'left-middle': ''} ${index === middleIndex + 1 ? 'right-middle': ''} ${index < middleIndex - 1 ? 'left': ''} ${index > middleIndex + 1 ? 'right': ''}`}                 
-                                        key={ event.id }>
-                            <EventThumb event={event}/>
+                                        key={ event.id }
+                                        index={index}
+                                        onClick={handleClick}
+                                        >
+                            <EventThumb event={event} index={index} middleIndex={middleIndex} setEventView={setEventView}/>
                         </li>
                     )
                 }
             </ul>
         </div>
+        { eventView ? <EventView eventView={eventView} setEventView={setEventView}/> : '' }
+        </>
         )
     }

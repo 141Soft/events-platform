@@ -1,9 +1,10 @@
 import React from "react";
 
-export const EventThumb = ({ event }) => {
+export const EventThumb = ({ event, index, middleIndex, setEventView }) => {
+
     return (
-        <div>
-            <p>{event.eventName}</p>
+        <div className="event-thumb">
+            <h1>{event.eventName}</h1>
             <p>{event.eventStub}</p>
             <ul className='et-tags'>
                 {
