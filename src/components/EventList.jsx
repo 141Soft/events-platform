@@ -45,12 +45,26 @@ export const EventList = ({ searchParams, setSearchParams, setEventCount, setErr
     }, [debounceScrollHandler]);
 
     //preventDefault doesn't work, needs some way to stop vertical scrolling
-    const handleWheel = (e) => {
-        e.preventDefault();
-        if(listRef.current && !eventView){
-            listRef.current.scrollLeft += e.deltaY/4;
+    
+
+    useEffect(() => {
+        const element = listRef.current;
+        if(element){
+            const handleWheel = (e) => {
+                e.preventDefault();
+                if(!eventView){
+                    listRef.current.scrollLeft += e.deltaY/4;
+                };
+            };
+            const options = { passive: false };
+
+            element.addEventListener('wheel', handleWheel, options);
+
+            return () => {
+                element.removeEventListener('wheel', handleWheel, options);
+            }
         }
-    }
+    }, []);
     
     //Finding middle item for effects
     //We should probably also scroll any non-middle item we click
@@ -118,7 +132,7 @@ export const EventList = ({ searchParams, setSearchParams, setEventCount, setErr
     return (
         <>
         <div className="event-list-container" >
-            <ul className="event-list" onWheel={handleWheel} ref={listRef}>
+            <ul className="event-list"  ref={listRef}>
                 {
                     events.map((event, index) => 
                         <li className={`event-list-entry ${index === middleIndex ? 'middle-item' : ''} ${index === middleIndex - 1 ? 'left-middle': ''} ${index === middleIndex + 1 ? 'right-middle': ''} ${index < middleIndex - 1 ? 'left': ''} ${index > middleIndex + 1 ? 'right': ''}`}                 
