@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef, useCallback } from "react";
-import { EventThumb } from "./EventThumb";
+import { MemoEventThumb } from "./EventThumb";
 import { getEvents } from "../api";
 import debounce from "lodash.debounce";
 import { EventView } from "./EventView";
@@ -36,6 +36,10 @@ export const EventList = ({ searchParams, setSearchParams, setEventCount, setErr
     }, 50);
 
     useEffect(() => {
+        listRef.current.scrollLeft = 0;
+    },[]);
+
+    useEffect(() => {
         //ensures re-render on scrolling event-list
         if(listRef.current) {
             listRef.current.addEventListener('scroll', debounceScrollHandler);
@@ -43,28 +47,25 @@ export const EventList = ({ searchParams, setSearchParams, setEventCount, setErr
         }
 
     }, [debounceScrollHandler]);
-
-    //preventDefault doesn't work, needs some way to stop vertical scrolling
     
 
     useEffect(() => {
-        const element = listRef.current;
-        if(element){
+        if(listRef.current){
             const handleWheel = (e) => {
-                e.preventDefault();
                 if(!eventView){
+                    e.preventDefault();
                     listRef.current.scrollLeft += e.deltaY/4;
                 };
             };
             const options = { passive: false };
 
-            element.addEventListener('wheel', handleWheel, options);
+            listRef.current.addEventListener('wheel', handleWheel, options);
 
             return () => {
-                element.removeEventListener('wheel', handleWheel, options);
-            }
-        }
-    }, []);
+                listRef.current.removeEventListener('wheel', handleWheel, options)
+            };
+        };
+    }, [eventView]);
     
     //Finding middle item for effects
     //We should probably also scroll any non-middle item we click
@@ -95,7 +96,6 @@ export const EventList = ({ searchParams, setSearchParams, setEventCount, setErr
 
     useEffect(() => {
         //infinite scroll
-        console.log(middleIndex, pageRef, totalPages);
         if (middleIndex === events.length - 1 && pageRef !== totalPages && events.length !== 0 && !isLoading) {
             console.log("hit")
             const loadNextPage = async() => {
@@ -124,6 +124,7 @@ export const EventList = ({ searchParams, setSearchParams, setEventCount, setErr
             setEventView(events[i]);
             console.log(eventView);
         }
+
     }
 
 
@@ -132,7 +133,7 @@ export const EventList = ({ searchParams, setSearchParams, setEventCount, setErr
     return (
         <>
         <div className="event-list-container" >
-            <ul className="event-list"  ref={listRef}>
+            <ul className="event-list" ref={listRef}>
                 {
                     events.map((event, index) => 
                         <li className={`event-list-entry ${index === middleIndex ? 'middle-item' : ''} ${index === middleIndex - 1 ? 'left-middle': ''} ${index === middleIndex + 1 ? 'right-middle': ''} ${index < middleIndex - 1 ? 'left': ''} ${index > middleIndex + 1 ? 'right': ''}`}                 
@@ -140,13 +141,13 @@ export const EventList = ({ searchParams, setSearchParams, setEventCount, setErr
                                         index={index}
                                         onClick={handleClick}
                                         >
-                            <EventThumb event={event} index={index} middleIndex={middleIndex} setEventView={setEventView}/>
+                            <MemoEventThumb event={event} index={index} middleIndex={middleIndex} setEventView={setEventView}/>
                         </li>
                     )
                 }
             </ul>
         </div>
-        { eventView ? <EventView eventView={eventView} setEventView={setEventView}/> : '' }
+        { eventView ? <EventView eventView={eventView} setEventView={setEventView} listRef={listRef}/> : '' }
         </>
         )
     }

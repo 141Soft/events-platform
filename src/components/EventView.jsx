@@ -1,20 +1,30 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
-export const EventView = ({ eventView, setEventView }) => {
+export const EventView = ({ eventView, setEventView, listRef }) => {
+
+    const eventRef = useRef(null);
+    const [hidden, setHidden] = useState(false);
 
     useEffect(() => {
+        if(eventRef.current){
+            eventRef.current.scrollIntoView({behavior: 'smooth', block:'start'});
+        }
     });
 
-    const handleClick = (e) => {
+    const handleClick = async (e) => {
         e.preventDefault();
-        setEventView(null);
+        listRef.current.scrollIntoView({behavior: 'smooth', block:'end', inline:'center'})
+        setTimeout(()=> {
+            setEventView(null);
+        }, 500);
     };
 
     return (
         <div className="event-view">
             <button className="exit-button" onClick={handleClick}>✕</button>
-            <h1>{eventView.eventName}</h1>
+            <h1 ref={eventRef} >{eventView.eventName}</h1>
             <p>{eventView.eventDesc}</p>
+            <div className="placeholder"></div>
         </div>
     )
 }

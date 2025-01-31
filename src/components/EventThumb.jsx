@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 
-export const EventThumb = ({ event, index, middleIndex, setEventView }) => {
+export const MemoEventThumb = React.memo(function EventThumb({ event, index, middleIndex, setEventView }) {
 
     return (
         <div className="event-thumb">
@@ -15,4 +15,4 @@ export const EventThumb = ({ event, index, middleIndex, setEventView }) => {
             </ul>
         </div>
     )
-}
+})
