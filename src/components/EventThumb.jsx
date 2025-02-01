@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 
 export const MemoEventThumb = React.memo(function EventThumb({ event, index, middleIndex, setEventView }) {
-
+    
     return (
         <div className="event-thumb">
             <h1>{event.eventName}</h1>

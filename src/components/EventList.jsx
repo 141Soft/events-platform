@@ -5,15 +5,16 @@ import debounce from "lodash.debounce";
 import { EventView } from "./EventView";
 
 export const EventList = ({ searchParams, setSearchParams, setEventCount, setError }) => {
-
     const [events, setEvents] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [totalPages, setTotalPages] = useState(1);
     const [pageRef, setPageRef] = useState(1);
     const [middleIndex, setMiddleIndex] = useState(-1);
     const [eventView, setEventView] = useState(null);
+    const [hasJoined, setHasJoined] = useState([]);
     const listRef = useRef(null);
-
+    
+    
     useEffect(()=> {
         const loadData = async() => {
             try {
@@ -68,7 +69,6 @@ export const EventList = ({ searchParams, setSearchParams, setEventCount, setErr
     }, [eventView]);
     
     //Finding middle item for effects
-    //We should probably also scroll any non-middle item we click
     useEffect(() => {
         if (!listRef.current || events.length === 0) return;
 
@@ -122,7 +122,7 @@ export const EventList = ({ searchParams, setSearchParams, setEventCount, setErr
         const i = Number(e.currentTarget.getAttribute('index'));
         if(i === middleIndex){
             setEventView(events[i]);
-            console.log(eventView);
+            console.log(eventView, events[i]);
         }
 
     }
@@ -147,7 +147,7 @@ export const EventList = ({ searchParams, setSearchParams, setEventCount, setErr
                 }
             </ul>
         </div>
-        { eventView ? <EventView eventView={eventView} setEventView={setEventView} listRef={listRef}/> : '' }
+        { eventView ? <EventView eventView={eventView} setEventView={setEventView} listRef={listRef} setHasJoined={setHasJoined} hasJoined={hasJoined} /> : '' }
         </>
         )
     }
