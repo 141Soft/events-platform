@@ -5,6 +5,7 @@ import { SearchBar } from './components/SearchBar';
 import { UserProvider } from './contexts/UserProvider';
 import { LoginManager } from './components/LoginManager';
 import { postLogin } from './api';
+import { EventManager } from './components/EventManager';
 
 export const App = () => {
 
@@ -30,7 +31,7 @@ export const App = () => {
       <div className='main-content'>
         {display ? <LoginManager setDisplay={setDisplay} error={error} setError={setError}/> : ''}
         <SearchBar setSearchParams={setSearchParams} setError={setError} setDisplayAddEvent={setDisplayAddEvent}/>
-        {displayAddEvent ? <p>test</p> : ''}
+        {displayAddEvent ? <EventManager setDisplayAddEvent={setDisplayAddEvent}/> : ''}
         <p>We have {eventCount} events</p>
         <EventList searchParams={searchParams} setSearchParams={setSearchParams} setEventCount={setEventCount} setError={setError}/>
       </div>
