@@ -19,6 +19,24 @@ html, body {
     height: 100vh;
 }
 
+.main-header {
+    display: flex;
+    flex-grow: 0;
+}
+
+.main-header > button {
+    margin-left: auto;
+    margin-top: 1rem;
+    margin-right: 1rem;
+    background-color: transparent;
+    border: none;
+    outline: none;
+}
+
+.main-header > button:hover {
+    text-decoration: underline;
+}
+
 .main-content{
     margin: auto;
 }
@@ -32,16 +50,38 @@ html, body {
     flex-wrap: wrap;
 }
 
-.searchBar > input {
+.searchBar > div > input {
+    margin: 0;
     margin-left: auto;
     margin-right: auto;
     background-color: #181818;
     border-radius: 0.3rem;
     border: thin solid #a47864;
+    padding: 0;
     height: 2rem;
     width: 30rem;
     flex-shrink: 0;
     text-indent: 1rem;
+    vertical-align: middle;
+}
+
+.add-event {
+    background-color: #a47864;
+    border: thin solid #a47864;
+    border-radius: 0.3rem;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.1rem;
+    width: 2rem;
+    height: 2rem;
+    flex-shrink: 0;
+    margin-left: 0.5rem;
+    vertical-align: middle;
+}
+
+.add-event:hover {
+    background-color:#b49f96;
+    border: thin solid #b49f96;
 }
 
 .tag {
@@ -208,6 +248,109 @@ html, body {
     border: none;
     font-size: 1.2rem;
 }
+
+.login-window {
+    position: absolute;
+    left: 30vw;
+    right: 30vw;
+    top: 20vh;
+    bottom: 20vh;
+    background-color: #181818;
+    z-index: 10;
+    border-radius: 0.2rem;
+    border: thin solid #a47864;
+}
+
+.login-window > button {
+    position: absolute;
+    background-color: #181818;
+    border: none;
+    right: 1rem;
+    top: 1rem;
+    font-size: 1.2rem;
+}
+
+.login-container {
+    margin-top: 18%;
+    display: flex;
+}
+
+.user-login {
+    width: 40%;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.user-login > h1 {
+    margin-top: 0;
+    padding-top: 0;
+    text-align: center;
+}
+
+.user-login > button {
+    background: #504945;
+    border-radius: 0.5rem;
+    border-color: transparent;
+    min-width: 2rem;
+    margin-top: 2rem;
+}
+
+.staff-login {
+    width: 40%;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.staff-login > h1 {
+    margin-top: 0;
+    padding-top: 0;
+    text-align: center;
+}
+
+.staff-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-grow: 0;
+}
+
+.staff-form > div > input {
+    background-color: #181818;
+    border-radius: 0.2rem;
+    border-color: #504945;
+}
+
+.staff-form > div > input:focus {
+    outline: none;
+    border-color: #a47864;
+}
+
+.staff-form > button {
+    background: #504945;
+    border-radius: 0.5rem;
+    border-color: transparent;
+    min-width: 2rem;
+    max-width: 5rem;
+    margin-top: 2rem;
+}
+
+.admin-logout {
+    background: #504945;
+    border-radius: 0.5rem;
+    border-color: transparent;
+    min-width: 2rem;
+    max-width: 5rem;
+    margin-top: 2rem;
+}
+
+.join-event-button {
+    background-color: transparent;
+    border: none;
+};
 
 
 

@@ -1,13 +1,15 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useContext } from "react";
 import debounce from "lodash.debounce";
 import { getTags } from "../api";
+import { UserContext } from "../contexts/UserProvider";
 
 //Would be nice if this could search through tags as well
-export const SearchBar = ({setSearchParams, setError}) => {
+export const SearchBar = ({setSearchParams, setError, setDisplayAddEvent}) => {
 
     const [value, setValue] = useState("");
     const [searchTags, setSearchTags] = useState([]);
     const [activeTag, setActiveTag] = useState('');
+    const { adminUser } = useContext(UserContext);
 
     useEffect(() => {
         const loadTags = async () => {
@@ -65,7 +67,10 @@ export const SearchBar = ({setSearchParams, setError}) => {
     return (
         <>
             <div className="searchBar">
-                <input aria-label="Enter Search" type="text" value={value} placeholder="Start typing..." onChange={handleChange}></input>
+                <div>
+                    <input aria-label="Enter Search" type="text" value={value} placeholder="Start typing..." onChange={handleChange}></input>
+                    {adminUser?.isAdmin === 1 ? <button className="add-event" title="Create New Event" onClick={()=>{setDisplayAddEvent(true)}}>＋</button> : ''}
+                </div>
                 <ul className="tags-list">
                     {searchTags.map((tag) => 
                         <li key={tag}>
