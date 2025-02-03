@@ -1,8 +1,10 @@
 import axios from 'axios';
 
 const serverApi = axios.create({
-    baseURL:'http://localhost:3000'
+    baseURL:import.meta.env.VITE_API_URL
 });
+
+
 
 serverApi.defaults.withCredentials = true;
 
@@ -50,7 +52,6 @@ export const getImage = async (path) => {
         const res = await serverApi.get('/events/images?'+'path='+path, {
             responseType: 'blob',
         });
-        console.log(res);
         return res.data;
     } catch(err) {
         console.error(err);

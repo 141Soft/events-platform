@@ -28,7 +28,6 @@ export const updateCalendar = async (accessToken, event) => {
                 'Content-Type': 'application/json'
             }
         });
-        console.log("Event Created:", response.data);
         return response.data;
     } catch (error) {
         console.error('Error creating event:', error);

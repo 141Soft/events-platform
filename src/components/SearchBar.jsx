@@ -68,7 +68,7 @@ export const SearchBar = ({setSearchParams, setError, setDisplayAddEvent}) => {
     return (
         <>
             <div className="searchBar">
-                <button onClick={() => setRevealTags(prev => !prev)}>{revealTags ?'▲':'▼'}</button>
+                <button title="Show tags" onClick={() => setRevealTags(prev => !prev)}>{revealTags ?'▲':'▼'}</button>
                 <div>
                     <input aria-label="Enter Search" type="text" value={value} placeholder="Start typing..." onChange={handleChange}></input>
                     {adminUser?.isAdmin === 1 ? <button className="add-event" title="Create New Event" onClick={()=>{setDisplayAddEvent(true)}}>＋</button> : ''}

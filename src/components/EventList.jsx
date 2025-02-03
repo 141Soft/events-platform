@@ -101,7 +101,6 @@ export const EventList = ({ searchParams, setSearchParams, setEventCount, setErr
     useEffect(() => {
         //infinite scroll
         if (middleIndex === events.length - 1 && pageRef !== totalPages && events.length !== 0 && !isLoading) {
-            console.log("hit")
             const loadNextPage = async() => {
                 try {
                     const newSearchParams = {...searchParams};
@@ -126,7 +125,6 @@ export const EventList = ({ searchParams, setSearchParams, setEventCount, setErr
         const i = Number(e.currentTarget.getAttribute('index'));
         if(i === middleIndex){
             setEventView(events[i]);
-            console.log(eventView, events[i]);
         }
 
     }

@@ -12,7 +12,9 @@ export const EventManager = ({ setDisplayAddEvent }) => {
     const [eventStub, setEventStub] = useState('');
     const [eventThumbnail, setEventThumbnail] = useState(null);
     const [previewUrl, setPreviewUrl] = useState(null);
-    const [searchTags, setSearchTags] = useState([]);
+    const [searchTags, setSearchTags] = useState([
+        'food','culture','literature','local','members','music','art'
+    ]);
     const [selectedTags, setSelectedEventTags] = useState([]);
     const [error, setError] = useState('');
 
@@ -20,7 +22,7 @@ export const EventManager = ({ setDisplayAddEvent }) => {
         const loadTags = async () => {
             try {
                 const data = await getTags();
-                setSearchTags(data.tags);
+                setSearchTags(prev => [...prev, ...data.tags.filter((tag) => !prev.includes(tag))]);
             } catch (err) {
                 console.error(err);
                 setError(err.message || 'Tag loading failed');
@@ -70,9 +72,15 @@ export const EventManager = ({ setDisplayAddEvent }) => {
             formData.append('eventDate', formatDateTime(eventDate, eventTime));
             formData.append('eventDuration', eventDuration);
         try{
-            console.log(formData);
             const response = await postEvent(formData);
-            console.log(response);
+            setEventName('');
+            setEventDate('');
+            setEventDesc('');
+            setEventStub('');
+            setEventDuration(1);
+            setEventThumbnail(null);
+            setPreviewUrl(null);
+            setSelectedEventTags([]);
         } catch (err) {
             setError(err.message);
             console.error(err);
