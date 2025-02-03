@@ -1,18 +1,21 @@
 import axios from "axios";
+import { incrementDateTime } from "./utils/parsers";
 
 const googleApi = axios.create({
     baseURL:'https://www.googleapis.com'
 });
 
 export const updateCalendar = async (accessToken, event) => {
+
+     
     
     const eventToPost = {
         "start": {
-            "dateTime": "2025-02-02T17:00:00",
+            "dateTime": event.eventDate,
             "timeZone": "Europe/London"
         },
         "end": {
-            "dateTime": "2025-02-02T19:00:00",
+            "dateTime": incrementDateTime(event.eventDate, event.eventDuration),
             "timeZone": "Europe/London"
         },
         "summary": `${event.eventName}`,

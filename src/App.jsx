@@ -16,7 +16,7 @@ export const App = () => {
   
   //params: id, name, tag, paginate, page, limit
   //pagination parameters are placed here for now
-  const [searchParams, setSearchParams] = useState({paginate:true, limit:5, page: 1});
+  const [searchParams, setSearchParams] = useState({paginate:true, limit:10, page: 1});
   const [eventCount, setEventCount] = useState(0);
   
   // const onClick = async () => {
@@ -29,10 +29,10 @@ export const App = () => {
           <button onClick={() => setDisplay(true)}>Account</button>
       </header>
       <div className='main-content'>
+        <p className='event-counter'>Browsing {eventCount} {eventCount === 1 ? 'event' : 'events'}</p>
         {display ? <LoginManager setDisplay={setDisplay} error={error} setError={setError}/> : ''}
         <SearchBar setSearchParams={setSearchParams} setError={setError} setDisplayAddEvent={setDisplayAddEvent}/>
         {displayAddEvent ? <EventManager setDisplayAddEvent={setDisplayAddEvent}/> : ''}
-        <p>We have {eventCount} events</p>
         <EventList searchParams={searchParams} setSearchParams={setSearchParams} setEventCount={setEventCount} setError={setError}/>
       </div>
     </UserProvider>

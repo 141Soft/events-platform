@@ -22,6 +22,20 @@ export const getEvents = async (searchParams) => {
     }
 }
 
+export const postEvent = async (formData) => {
+    try{
+        const res = await serverApi.post('/events', formData, {
+            header: {
+                'Content-Type': 'multipart/form-data'
+            },
+            withCredentials: true
+        });
+        return res.data;
+    } catch(err) {
+        console.error(err);
+    }
+}
+
 export const getTags = async () => {
     try{
         const res = await serverApi.get('/events/tags');
@@ -30,6 +44,18 @@ export const getTags = async () => {
         console.error(err);
     }
 };
+
+export const getImage = async (path) => {
+    try{
+        const res = await serverApi.get('/events/images?'+'path='+path, {
+            responseType: 'blob',
+        });
+        console.log(res);
+        return res.data;
+    } catch(err) {
+        console.error(err);
+    }
+}
 
 export const postLogin = async (email, password) => {
     try{

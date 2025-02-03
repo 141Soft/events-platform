@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef, useCallback } from "react";
 import { MemoEventThumb } from "./EventThumb";
-import { getEvents } from "../api";
+import { getEvents, getImage } from "../api";
 import debounce from "lodash.debounce";
 import { EventView } from "./EventView";
 
@@ -19,6 +19,10 @@ export const EventList = ({ searchParams, setSearchParams, setEventCount, setErr
         const loadData = async() => {
             try {
                 const data = await getEvents(searchParams);
+                for(const event of data.events){
+                    const image = await getImage(event.eventThumb);
+                    event.image = URL.createObjectURL(image);
+                };
                 setEvents(data.events);
                 setIsLoading(false);
                 setTotalPages(data.pagination?.totalPages);

@@ -5,7 +5,7 @@ export const MemoEventThumb = React.memo(function EventThumb({ event, index, mid
     return (
         <div className="event-thumb">
             <h1>{event.eventName}</h1>
-            <p>{event.eventStub}</p>
+            <img src={event.image} />
             <ul className='et-tags'>
                 {
                     event.tags.map((tag, index)=> 

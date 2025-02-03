@@ -9,6 +9,7 @@ export const SearchBar = ({setSearchParams, setError, setDisplayAddEvent}) => {
     const [value, setValue] = useState("");
     const [searchTags, setSearchTags] = useState([]);
     const [activeTag, setActiveTag] = useState('');
+    const [revealTags, setRevealTags] = useState(false);
     const { adminUser } = useContext(UserContext);
 
     useEffect(() => {
@@ -67,10 +68,13 @@ export const SearchBar = ({setSearchParams, setError, setDisplayAddEvent}) => {
     return (
         <>
             <div className="searchBar">
+                <button onClick={() => setRevealTags(prev => !prev)}>{revealTags ?'▲':'▼'}</button>
                 <div>
                     <input aria-label="Enter Search" type="text" value={value} placeholder="Start typing..." onChange={handleChange}></input>
                     {adminUser?.isAdmin === 1 ? <button className="add-event" title="Create New Event" onClick={()=>{setDisplayAddEvent(true)}}>＋</button> : ''}
                 </div>
+                
+                { !revealTags ? '' : 
                 <ul className="tags-list">
                     {searchTags.map((tag) => 
                         <li key={tag}>
@@ -84,6 +88,7 @@ export const SearchBar = ({setSearchParams, setError, setDisplayAddEvent}) => {
                         </li>
                         )}
                 </ul>
+                }
             </div>
         </>
     )
