@@ -28,12 +28,13 @@ export const App = () => {
       <header className='main-header'>
           <button onClick={() => setDisplay(true)}>Account</button>
       </header>
+      { error ? <p>{error}</p> : '' }
       <div className='main-content'>
         <p className='event-counter'>Browsing {eventCount} {eventCount === 1 ? 'event' : 'events'}</p>
         {display ? <LoginManager setDisplay={setDisplay} error={error} setError={setError}/> : ''}
         <SearchBar setSearchParams={setSearchParams} setError={setError} setDisplayAddEvent={setDisplayAddEvent}/>
         {displayAddEvent ? <EventManager setDisplayAddEvent={setDisplayAddEvent}/> : ''}
-        <EventList searchParams={searchParams} setSearchParams={setSearchParams} setEventCount={setEventCount} setError={setError}/>
+        <EventList searchParams={searchParams} setEventCount={setEventCount} setError={setError}/>
       </div>
     </UserProvider>
   )

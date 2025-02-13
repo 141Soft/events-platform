@@ -28,9 +28,9 @@ export const updateCalendar = async (accessToken, event) => {
                 'Content-Type': 'application/json'
             }
         });
+        console.log(response);
         return response.data;
     } catch (error) {
-        console.error('Error creating event:', error);
         throw error;
     };
 };

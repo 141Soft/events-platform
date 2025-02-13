@@ -5,7 +5,7 @@ import debounce from "lodash.debounce";
 import { EventView } from "./EventView";
 import { RotatingLines } from "react-loader-spinner";
 
-export const EventList = ({ searchParams, setSearchParams, setEventCount, setError }) => {
+export const EventList = ({ searchParams, setEventCount, setError }) => {
     const [events, setEvents] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [totalPages, setTotalPages] = useState(1);
@@ -31,6 +31,7 @@ export const EventList = ({ searchParams, setSearchParams, setEventCount, setErr
                 setEventCount(data.pagination.count);
             } catch (err) {
                 console.error(err)
+                setError(err.message);
                 throw err;
             }
         }

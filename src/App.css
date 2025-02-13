@@ -559,10 +559,6 @@ html, body {
         display: flex;
     }
 
-    .event-view-details {
-        margin-left: 0.5rem;
-    }
-
     .join-event-button {
         background-color: transparent;
         border: none;
