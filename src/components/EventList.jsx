@@ -3,6 +3,7 @@ import { MemoEventThumb } from "./EventThumb";
 import { getEvents, getImage } from "../api";
 import debounce from "lodash.debounce";
 import { EventView } from "./EventView";
+import { RotatingLines } from "react-loader-spinner";
 
 export const EventList = ({ searchParams, setSearchParams, setEventCount, setError }) => {
     const [events, setEvents] = useState([]);
@@ -135,6 +136,19 @@ export const EventList = ({ searchParams, setSearchParams, setEventCount, setErr
     return (
         <>
         <div className="event-list-container" >
+
+            { isLoading ? <div className="loader"><RotatingLines
+                            strokeColor="grey"
+                            strokeWidth="5"
+                            animationDuration="0.75"
+                            width="72"
+                            visible={true}/> </div>
+                        :''}
+            { events.length === 0 && !isLoading ?
+                <div className="no-events-status">
+                    <p>No events to show!</p>
+                </div>
+                : '' }
             <ul className="event-list" ref={listRef}>
                 {
                     events.map((event, index) => 

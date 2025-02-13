@@ -370,7 +370,7 @@ html, body {
 }
 
 .event-view {
-    width: 80vw;
+    width: 70vw;
     min-height: 40rem;
     margin: auto;
 }
@@ -388,15 +388,30 @@ html, body {
     margin-left: 0.5rem;
 }
 
-.event-view > img {
-    max-width: 40%;
+.event-view-details {
+    display: flex;
+}
+
+.event-view-details > img {
+    max-width: 30%;
     float: right;
     border-bottom-left-radius: 0.4rem;
     border-bottom-right-radius: 0.4rem;
+    margin-left: auto;
+    align-self: flex-start;
 }
 
-.event-view-details > p {
-    text-wrap: wrap;
+.left {
+    padding-left: 2rem;
+}
+
+.button-container {
+    background-color: #a47864;
+    width: fit-content;
+    border-bottom-left-radius: 0.3rem;
+    border-bottom-right-radius: 0.3rem;
+    flex-grow: 0;
+    align-self: flex-start;
 }
 
 .join-event-button {
@@ -497,6 +512,24 @@ html, body {
     background-color: transparent;
 }
 
+.no-events-status > p {
+    padding-top: 8rem;
+    text-align: center;
+}
+
+.loader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+
+
+.button-container > button {
+    margin-right: 0.4rem;
+}
+
 @media only screen and (max-width: 767px) {
 
     .searchBar > div > input {
@@ -508,7 +541,7 @@ html, body {
         border: thin solid #a47864;
         padding: 0;
         height: 2rem;
-        width: 80vw;
+        width: 60vw;
         flex-shrink: 0;
         text-indent: 1rem;
         vertical-align: middle;
