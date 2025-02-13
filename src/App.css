@@ -373,6 +373,7 @@ html, body {
     width: 70vw;
     min-height: 40rem;
     margin: auto;
+    position: relative;
 }
 
 .event-view > header {
@@ -528,6 +529,17 @@ html, body {
 
 .button-container > button {
     margin-right: 0.4rem;
+}
+
+.success-indicator {
+    background-color: #b49f96;
+    padding: 0.4rem;
+    width: fit-content;
+    border-radius: 0.3rem;
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 @media only screen and (max-width: 767px) {

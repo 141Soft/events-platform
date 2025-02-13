@@ -164,7 +164,7 @@ export const EventList = ({ searchParams, setEventCount, setError }) => {
                 }
             </ul>
         </div>
-        { eventView ? <EventView eventView={eventView} setEventView={setEventView} listRef={listRef} setHasJoined={setHasJoined} hasJoined={hasJoined} /> : '' }
+        { eventView ? <EventView eventView={eventView} setEventView={setEventView} listRef={listRef} setHasJoined={setHasJoined} hasJoined={hasJoined} setError={setError}/> : '' }
         </>
         )
     }

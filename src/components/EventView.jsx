@@ -4,12 +4,13 @@ import { updateCalendar } from "../googleApi";
 import { useGoogleLogin } from "@react-oauth/google";
 import { formatDateTime } from "../utils/parsers";
 
-export const EventView = ({ eventView, setEventView, listRef, setHasJoined, hasJoined }) => {
+export const EventView = ({ eventView, setEventView, listRef, setHasJoined, hasJoined, setError }) => {
 
     const eventRef = useRef(null);
     const { user, setUser } = useContext(UserContext);
     const [pressed, setPressed] = useState(false);
     const [isHidden, setIsHidden] = useState(false);
+    const [success, setSuccess] = useState(false);
     const { date, time } = formatDateTime(eventView.eventDate);
 
     useEffect(() => {
@@ -36,9 +37,13 @@ export const EventView = ({ eventView, setEventView, listRef, setHasJoined, hasJ
     useEffect(() => {
         const retryPost = async () => {
             if(pressed){
-                await updateCalendar(user.access_token, eventView);
+                const res = await updateCalendar(user.access_token, eventView);
                 setPressed(false);
                 setHasJoined(prev => [...prev, eventView.eventName]);
+                if(res.status === 200){
+                    setSuccess(true);
+                    setTimeout(() => setSuccess(false), 3000)
+                };
             };
         };
         retryPost();
@@ -47,20 +52,28 @@ export const EventView = ({ eventView, setEventView, listRef, setHasJoined, hasJ
     const joinEvent = async () => {
         try {
             if(!user?.access_token){
-                login();
+                const res = login();
                 setPressed(true);
             } 
             if(!hasJoined.includes(eventView.eventName) && !pressed){
-                await updateCalendar(user.access_token, eventView);
+                const res = await updateCalendar(user.access_token, eventView);
                 setHasJoined(prev => [...prev, eventView.eventName]);
-            }
+                if(res.status === 200){
+                    setSuccess(true);
+                    setTimeout(() => setSuccess(false), 3000)
+                };
+            };
         } catch (error) {
-            console.error(error);
+            if(user?.access_token){
+                setError("failed to add event, code: " + error.message);
+                console.error(error);
+            }
         }
     }
 
     return (
         <div className="event-view">
+            {success ? <div className="success-indicator">Event Joined!</div> : ''}
             {isHidden ? '' : 
             <>
                 <header>
