@@ -92,7 +92,7 @@ export const EventManager = ({ setDisplayAddEvent }) => {
         <div className="event-manager">
             <button onClick={() => setDisplayAddEvent(false)}>✕</button>
             <div className="event-manager-container">
-                <h1>Create Event:</h1>
+                <h1>Create Event</h1>
                 <form className="create-event" onSubmit={handleSubmit}>
                     <div>
                         <label htmlFor="name">Title</label>
@@ -126,9 +126,9 @@ export const EventManager = ({ setDisplayAddEvent }) => {
                     </div>
                     <div>
                         <label htmlFor="description">Description</label>
-                        <input
+                        <textarea
                             type="text" 
-                            id="eventDesc" 
+                            id="eventDesc"
                             value={eventDesc} 
                             onChange={(e) => setEventDesc(e.target.value)} 
                             required 

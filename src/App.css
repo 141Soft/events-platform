@@ -398,6 +398,7 @@ html, body {
 
 .event-view-details > img {
     max-height: 12rem;
+    max-width: 40%;
     float: right;
     border-bottom-left-radius: 0.4rem;
     border-bottom-right-radius: 0.4rem;
@@ -442,7 +443,7 @@ html, body {
     display: inline-block;
     background-color: transparent;
     border: none;
-    font-size: 1.2rem;
+    font-size: 1.3rem;
     height: 2rem;
     width: 2rem;
     border-radius: 0.4rem;
@@ -450,6 +451,7 @@ html, body {
 
 .exit-button:hover {
     background-color: #504945;
+    color: white;
 }
 
 .event-counter {
@@ -467,18 +469,27 @@ html, body {
     margin: auto;
     background-color: #181818;
     z-index: 10;
-    border-radius: 0.2rem;
+    border-radius: 0.3rem;
     border: thin solid #a47864;
     overflow-y: auto;
 }
 
 .event-manager > button {
     position: absolute;
+    color: black;
     background-color: transparent;
     border: none;
     right: 1rem;
     top: 1rem;
-    font-size: 1.2rem;
+    font-size: 1.3rem;
+    border-radius: 0.3rem;
+    width: 2rem;
+    height: 2rem;
+}
+
+.event-manager > button:hover{
+    background-color: #504945;
+    color:white;
 }
 
 .event-manager-container {
@@ -487,7 +498,11 @@ html, body {
 }
 
 .event-manager-container > h1 {
-    margin-left: 2rem;
+    background-color: #a47864;
+    padding-left: 2rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    margin-top: 0;
 }
 
 .create-event {
@@ -503,6 +518,16 @@ html, body {
     border-color: #b49f96;
     border-radius: 0.2rem;
     margin-bottom: 1rem;
+}
+
+.create-event > div > textarea {
+    display: block;
+    margin-right: auto;
+    background-color: #504945;
+    border-color: #b49f96;
+    border-radius: 0.2rem;
+    margin-bottom: 1rem;
+    resize: none;
 }
 
 .create-event > div > img {
