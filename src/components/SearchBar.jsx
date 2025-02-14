@@ -16,7 +16,7 @@ export const SearchBar = ({setSearchParams, setError, setDisplayAddEvent}) => {
         const loadTags = async () => {
           try {
             const data = await getTags();
-            setSearchTags(data.tags);
+            setSearchTags(data.tags.filter((tag) => tag !== ""));
           } catch (err) {
             console.error(err);
             setError(err.message || 'Tag loading failed');

@@ -172,6 +172,7 @@ export const EventManager = ({ setDisplayAddEvent }) => {
                             multiple 
                             value={selectedTags}
                             onChange={handleTagChange}
+                            required
                             >
                             {searchTags.map((tag, index) => 
                                 <option key={index} value={tag}>{tag}</option>

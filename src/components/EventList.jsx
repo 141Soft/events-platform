@@ -102,12 +102,18 @@ export const EventList = ({ searchParams, setEventCount, setError }) => {
 
     useEffect(() => {
         //infinite scroll
-        if (middleIndex === events.length - 1 && pageRef !== totalPages && events.length !== 0 && !isLoading) {
+        if (middleIndex === events.length - 3 && pageRef !== totalPages && events.length !== 0 && !isLoading) {
             const loadNextPage = async() => {
                 try {
                     const newSearchParams = {...searchParams};
                     newSearchParams.page = pageRef + 1;
                     const data = await getEvents(newSearchParams);
+                    for(const event of data.events){
+                        const image = await getImage(event.eventThumb);
+                        event.image = URL.createObjectURL(image);
+                    };
+
+
                     setEvents(prev => [...prev, ...data.events]);
                     setTotalPages(data.pagination?.totalPages);
                     setPageRef(data.pagination?.page);
