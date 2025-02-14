@@ -74,7 +74,7 @@ html, body {
     border: thin solid #a47864;
     padding: 0;
     height: 2rem;
-    width: 30rem;
+    width: 60vw;
     flex-shrink: 0;
     text-indent: 1rem;
     vertical-align: middle;
@@ -127,8 +127,10 @@ html, body {
     width: 100vw;
     padding: 0;
     margin: 0;
-    padding-top: 4rem;
-    padding-bottom: 4rem;
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+    margin-top: 4rem;
+    margin-bottom: 4rem;
 
     -ms-overflow-style: none;  /* IE and Edge */
     scrollbar-width: none;  /* Firefox */
@@ -395,7 +397,7 @@ html, body {
 }
 
 .event-view-details > img {
-    max-width: 30%;
+    max-height: 12rem;
     float: right;
     border-bottom-left-radius: 0.4rem;
     border-bottom-right-radius: 0.4rem;
@@ -467,6 +469,7 @@ html, body {
     z-index: 10;
     border-radius: 0.2rem;
     border: thin solid #a47864;
+    overflow-y: auto;
 }
 
 .event-manager > button {
@@ -479,10 +482,23 @@ html, body {
 }
 
 .event-manager-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.event-manager-container > h1 {
     margin-left: 2rem;
 }
 
+.create-event {
+    margin-left: 2rem;
+    display: flex;
+    flex-direction: column;
+}
+
 .create-event > div > input{
+    display: block;
+    margin-right: auto;
     background-color: #504945;
     border-color: #b49f96;
     border-radius: 0.2rem;
@@ -490,28 +506,30 @@ html, body {
 }
 
 .create-event > div > img {
-    float: right;
+    /* float: right; */
+    display: block;
     border-radius: 0.2rem;
     margin-right: 2rem;
     max-width: 8rem;
 }
 
 .create-event > button {
-    position: absolute;
+    display: block;
+    
     padding: 0.2rem;
     bottom: 2rem;
-    left: 50%;
-    transform: translateX(-50%);
     margin: auto;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
     background: #504945;
     border-radius: 0.4rem;
     border-color: transparent;
 }
 
 .create-event > div > select {
-    height: 8rem;
-    width: 6rem;
     background-color: transparent;
+    width: 10rem;
+    display: block;
 }
 
 .no-events-status > p {

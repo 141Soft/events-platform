@@ -22,7 +22,7 @@ export const EventManager = ({ setDisplayAddEvent }) => {
         const loadTags = async () => {
             try {
                 const data = await getTags();
-                setSearchTags(prev => [...prev, ...data.tags.filter((tag) => !prev.includes(tag))]);
+                setSearchTags(prev => [...prev, ...data.tags.filter((tag) => !prev.includes(tag) && tag !== "")]);
             } catch (err) {
                 console.error(err);
                 setError(err.message || 'Tag loading failed');
@@ -95,7 +95,7 @@ export const EventManager = ({ setDisplayAddEvent }) => {
                 <h1>Create Event:</h1>
                 <form className="create-event" onSubmit={handleSubmit}>
                     <div>
-                        <label htmlFor="name">Event Title:</label>
+                        <label htmlFor="name">Title</label>
                         <input
                             type="text" 
                             id="eventName" 
@@ -105,27 +105,17 @@ export const EventManager = ({ setDisplayAddEvent }) => {
                         />
                     </div>
                     <div>
-                        <label htmlFor="image-upload">Add Thumbnail:</label>
+                        <label htmlFor="image-upload">Thumbnail</label>
+                        { previewUrl ? <img src={previewUrl} alt="Preview"/> : '' }
                         <input
                             type="file" 
                             id="image-upload" 
                             accept="image/*" 
                             onChange={handleThumbChange}
                         />
-                        { previewUrl ? <img src={previewUrl} alt="Preview"/> : '' }
                     </div>
                     <div>
-                        <label htmlFor="description">Add Description:</label>
-                        <input
-                            type="text" 
-                            id="eventDesc" 
-                            value={eventDesc} 
-                            onChange={(e) => setEventDesc(e.target.value)} 
-                            required 
-                        />
-                    </div>
-                    <div>
-                        <label htmlFor="stub">Add Stub:</label>
+                        <label htmlFor="stub">Stub</label>
                         <input
                             type="text" 
                             id="eventStub" 
@@ -135,7 +125,17 @@ export const EventManager = ({ setDisplayAddEvent }) => {
                         />
                     </div>
                     <div>
-                        <label htmlFor="date">When:</label>
+                        <label htmlFor="description">Description</label>
+                        <input
+                            type="text" 
+                            id="eventDesc" 
+                            value={eventDesc} 
+                            onChange={(e) => setEventDesc(e.target.value)} 
+                            required 
+                        />
+                    </div>
+                    <div>
+                        <label htmlFor="date">When</label>
                         <input
                             type="date"
                             id="eventDate"
@@ -145,7 +145,7 @@ export const EventManager = ({ setDisplayAddEvent }) => {
                         />
                     </div>
                     <div>
-                        <label htmlFor="time">Start Time:</label>
+                        <label htmlFor="time">Start Time</label>
                         <input 
                             type="time" 
                             id="eventTime" 
@@ -155,9 +155,10 @@ export const EventManager = ({ setDisplayAddEvent }) => {
                         />
                     </div>
                     <div>
-                        <label htmlFor="duration">Duration (hours):</label>
+                        <label htmlFor="duration">Duration (hours)</label>
                         <input 
-                            type="number" 
+                            type="number"
+                            name="duration" 
                             id="eventDuration" 
                             value={eventDuration}
                             onChange={(e) => setEventDuration(e.target.value)}
@@ -166,10 +167,11 @@ export const EventManager = ({ setDisplayAddEvent }) => {
                         />
                     </div>
                     <div>
-                        <label htmlFor="tags">Add Tags(up to 3):</label>
+                        <label htmlFor="tags">Tags</label>
                         <select
                             id="select-tags" 
-                            multiple 
+                            multiple
+                            size={5} 
                             value={selectedTags}
                             onChange={handleTagChange}
                             required
