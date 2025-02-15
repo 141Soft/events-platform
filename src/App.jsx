@@ -1,11 +1,11 @@
 import './App.css'
 import { EventList } from './components/EventList'
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { SearchBar } from './components/SearchBar';
 import { UserProvider } from './contexts/UserProvider';
 import { LoginManager } from './components/LoginManager';
-import { postLogin } from './api';
 import { EventManager } from './components/EventManager';
+import { Header } from './components/Header';
 
 export const App = () => {
 
@@ -19,16 +19,10 @@ export const App = () => {
   //pagination parameters are placed here for now
   const [searchParams, setSearchParams] = useState({paginate:true, limit:10, page: 1});
   const [eventCount, setEventCount] = useState(0);
-  
-  // const onClick = async () => {
-  //   await postLogin('bob@example.com', 'buildStrong1');
-  // }
 
   return (
     <UserProvider>
-      <header className='main-header'>
-          <button onClick={() => setDisplay(true)}>Account</button>
-      </header>
+      <Header setDisplay={setDisplay}/>
       { error ? <p>{error}</p> : '' }
       <div className='main-content'>
         <p className='event-counter'>Browsing {eventCount} {eventCount === 1 ? 'event' : 'events'}</p>

@@ -3,6 +3,7 @@ import { UserContext } from "../contexts/UserProvider";
 import { updateCalendar } from "../googleApi";
 import { useGoogleLogin } from "@react-oauth/google";
 import { formatDateTime } from "../utils/parsers";
+import { getUser } from "../googleApi";
 
 export const EventView = ({ eventView, setEventView, listRef, setHasJoined, hasJoined, setError }) => {
 
@@ -30,8 +31,13 @@ export const EventView = ({ eventView, setEventView, listRef, setHasJoined, hasJ
         }, 500);
     };
 
+    const generateUser = async(response) => {
+        const { data } = await getUser(response.access_token);
+        setUser({...response, email: data.email, picture: data.picture});
+    };
+
     const login = useGoogleLogin({
-        onSuccess: (response) => setUser(response),
+        onSuccess: async (response) => await generateUser(response),
         onError: (error) => {throw error},
         scope: 'https://www.googleapis.com/auth/calendar',
     });

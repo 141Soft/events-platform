@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { googleLogout, useGoogleLogin } from '@react-oauth/google';
 import { UserContext } from '../contexts/UserProvider';
 import { postLogin } from '../api';
+import { getUser } from '../googleApi';
 
 export const LoginManager = ({ setDisplay }) => {
 
@@ -11,12 +12,13 @@ export const LoginManager = ({ setDisplay }) => {
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
 
-    useEffect(() => {
-        console.log(user);
-    }, [user]);
+    const generateUser = async(response) => {
+        const { data } = await getUser(response.access_token);
+        setUser({...response, email: data.email, picture: data.picture});
+    };
 
     const login = useGoogleLogin({
-        onSuccess: (response) => setUser(response),
+        onSuccess: async (response) => await generateUser(response),
         onError: (error) => console.error(error),
         scope: 'https://www.googleapis.com/auth/calendar',
     });

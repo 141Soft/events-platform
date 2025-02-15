@@ -58,7 +58,6 @@ export const EventManager = ({ setDisplayAddEvent, setEvents }) => {
         if(selectedTags.includes(tag)){
             const filteredTags = selectedTags.filter((t) => t !== tag);
             setSelectedEventTags([...filteredTags]);
-            console.log(selectedTags);
         } else if(selectedTags.length < 3) {
             setSelectedEventTags(prev => [...prev, tag]);
         }

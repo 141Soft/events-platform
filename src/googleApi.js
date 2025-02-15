@@ -33,3 +33,13 @@ export const updateCalendar = async (accessToken, event) => {
         throw error;
     };
 };
+
+export const getUser = async (accessToken) => {
+
+    try{
+        const response = await googleApi.get(`/oauth2/v2/userinfo?access_token="${accessToken}"`);
+        return response;
+    } catch (error) {
+        throw error;
+    };
+};
