@@ -511,28 +511,49 @@ html, body {
 }
 
 .create-event {
-    margin-left: 2rem;
     display: flex;
     flex-direction: column;
 }
 
+.create-event > div {
+    margin: auto;
+    width: 90%;
+    margin-bottom: 1rem;
+}
+
+.create-event > div > label {
+   line-height: 2rem;
+}
+
 .create-event > div > input{
     display: block;
-    margin-right: auto;
-    background-color: #504945;
-    border-color: #b49f96;
+    background-color: #22201e;
+    border-color: transparent;
+    height: 1.6rem;
+    width: fit-content;
     border-radius: 0.2rem;
-    margin-bottom: 1rem;
+}
+
+.create-event > div > input:focus {
+    outline: none;
+    border-color:#504945
 }
 
 .create-event > div > textarea {
     display: block;
-    margin-right: auto;
-    background-color: #504945;
-    border-color: #b49f96;
+    border-color: transparent;
+    background-color: #22201e;
+    height: 6rem;
     border-radius: 0.2rem;
     margin-bottom: 1rem;
+    margin: auto;
+    width: 100%;
     resize: none;
+}
+
+.create-event > div > textarea:focus {
+    outline: none;
+    border-color: #504945;
 }
 
 .create-event > div > img {
@@ -560,6 +581,24 @@ html, body {
     background-color: transparent;
     width: 10rem;
     display: block;
+}
+
+.tag-form {
+    display: flex;
+    flex-direction: column;
+    list-style-type: none;
+    padding-left: 0;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    height: 10rem;
+    flex-wrap: wrap;
+    background-color: #22201e;
+    border-radius: 0.3rem;
+    width: 100%;
+}
+
+.tag-form > li {
+    margin-left: 1rem;
 }
 
 .no-events-status > p {

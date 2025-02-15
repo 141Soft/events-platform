@@ -49,18 +49,19 @@ export const EventManager = ({ setDisplayAddEvent, setEvents }) => {
         }
     };
 
-    const handleTagChange = (e) => {
-        if(selectedTags.includes(e.target.value)){
-            const filteredTags = selectedTags.filter((tag) => tag !== e.target.value);
-            setSelectedEventTags([...filteredTags]);
-        } else if(selectedTags.length < 3) {
-            setSelectedEventTags(prev => [...prev, e.target.value]);
-        }
-    }
-
     const formatDateTime = (date, time) => {
         const dateTime = `${date}T${time}:00`;
         return dateTime;
+    }
+
+    const handleChange = (tag) => {
+        if(selectedTags.includes(tag)){
+            const filteredTags = selectedTags.filter((t) => t !== tag);
+            setSelectedEventTags([...filteredTags]);
+            console.log(selectedTags);
+        } else if(selectedTags.length < 3) {
+            setSelectedEventTags(prev => [...prev, tag]);
+        }
     }
 
     const handleSubmit = async (e) => {
@@ -124,11 +125,12 @@ export const EventManager = ({ setDisplayAddEvent, setEvents }) => {
                 <h1>Create Event</h1>
                 <form className="create-event" onSubmit={handleSubmit}>
                     <div>
-                        <label htmlFor="name">Title</label>
+                        <label htmlFor="eventName">Title</label>
                         <input
                             maxlength="50"
                             type="text" 
-                            id="eventName" 
+                            id="eventName"
+                            placeholder="What is your event called?"
                             value={eventName} 
                             onChange={(e) => setEventName(e.target.value)} 
                             required 
@@ -145,27 +147,29 @@ export const EventManager = ({ setDisplayAddEvent, setEvents }) => {
                         />
                     </div>
                     <div>
-                        <label htmlFor="stub">Stub</label>
+                        <label htmlFor="eventStub">Tagline</label>
                         <textarea
                             type="text" 
                             id="eventStub" 
+                            placeholder="Give a brief description of your event..."
                             value={eventStub} 
                             onChange={(e) => setEventStub(e.target.value)} 
                             required 
                         />
                     </div>
-                    <div>
-                        <label htmlFor="description">Description</label>
+                    <div className="event-form-textbox">
+                        <label htmlFor="eventDesc">Description</label>
                         <textarea
                             type="text" 
                             id="eventDesc"
+                            placeholder="Describe your event in more detail..."
                             value={eventDesc} 
                             onChange={(e) => setEventDesc(e.target.value)} 
                             required 
                         />
                     </div>
                     <div>
-                        <label htmlFor="date">When</label>
+                        <label htmlFor="eventDate">Start Date</label>
                         <input
                             type="date"
                             id="eventDate"
@@ -175,7 +179,7 @@ export const EventManager = ({ setDisplayAddEvent, setEvents }) => {
                         />
                     </div>
                     <div>
-                        <label htmlFor="time">Start Time</label>
+                        <label htmlFor="eventTime">Start Time</label>
                         <input 
                             type="time" 
                             id="eventTime" 
@@ -185,10 +189,9 @@ export const EventManager = ({ setDisplayAddEvent, setEvents }) => {
                         />
                     </div>
                     <div>
-                        <label htmlFor="duration">Duration (hours)</label>
+                        <label htmlFor="eventDuration">Duration (hours)</label>
                         <input 
                             type="number"
-                            name="duration" 
                             id="eventDuration" 
                             value={eventDuration}
                             onChange={(e) => setEventDuration(e.target.value)}
@@ -197,19 +200,21 @@ export const EventManager = ({ setDisplayAddEvent, setEvents }) => {
                         />
                     </div>
                     <div>
-                        <label htmlFor="tags">Tags</label>
-                        <select
-                            id="select-tags" 
-                            multiple
-                            size={5} 
-                            value={selectedTags}
-                            onChange={handleTagChange}
-                            required
-                            >
+                        <p>Tags (Select 3)</p>
+                        <ul className="tag-form">
                             {searchTags.map((tag, index) => 
-                                <option key={index} value={tag}>{tag}</option>
+                                <li>
+                                <input 
+                                    type="checkbox" 
+                                    id={tag + index}
+                                    key={index} 
+                                    checked={selectedTags.includes(tag)}
+                                    onChange={() => handleChange(tag)}
+                                    />
+                                    <label htmlFor={tag + index}>{tag}</label>
+                                </li>
                             )}
-                        </select>
+                        </ul>
                     </div>
                     {isSuccessful ? <p className="success-indicator">Event Submitted!</p> : ''}
                     {error ? <p className="error-message">{error}</p> : ''}
