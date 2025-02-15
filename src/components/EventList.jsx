@@ -164,7 +164,7 @@ export const EventList = ({ searchParams, setEventCount, setError, events, setEv
                     <p>No events to show!</p>
                 </div>
                 : '' }
-            <ul className="event-list" ref={listRef} onTouchMove={handleTouch}>
+            <ul className="event-list" ref={listRef}>
                 {
                     events.map((event, index) => 
                         <li className={`event-list-entry ${index === middleIndex ? 'middle-item' : ''} ${index === middleIndex - 1 ? 'left-middle': ''} ${index === middleIndex + 1 ? 'right-middle': ''} ${index < middleIndex - 1 ? 'left': ''} ${index > middleIndex + 1 ? 'right': ''}`}                 
