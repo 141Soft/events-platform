@@ -32,7 +32,7 @@ export const postEvent = async (formData) => {
             },
             withCredentials: true
         });
-        return res.data;
+        return res;
     } catch(err) {
         console.error(err);
     }

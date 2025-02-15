@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { getTags, postEvent } from "../api";
+import { RotatingLines } from "react-loader-spinner";
 
 
 export const EventManager = ({ setDisplayAddEvent }) => {
@@ -17,6 +18,8 @@ export const EventManager = ({ setDisplayAddEvent }) => {
     ]);
     const [selectedTags, setSelectedEventTags] = useState([]);
     const [error, setError] = useState('');
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [isSuccessful, setIsSuccessful] = useState(false);
 
     useEffect(() => {
         const loadTags = async () => {
@@ -72,7 +75,12 @@ export const EventManager = ({ setDisplayAddEvent }) => {
             formData.append('eventDate', formatDateTime(eventDate, eventTime));
             formData.append('eventDuration', eventDuration);
         try{
+            setIsSubmitting(true);
             const response = await postEvent(formData);
+            if(response.status === 200){
+                setIsSuccessful(true);
+                setTimeout(() => setIsSuccessful(false), 3000);
+            }
             setEventName('');
             setEventDate('');
             setEventDesc('');
@@ -82,8 +90,12 @@ export const EventManager = ({ setDisplayAddEvent }) => {
             setPreviewUrl(null);
             setSelectedEventTags([]);
         } catch (err) {
+            setIsSubmitting(false);
+            setIsSuccessful(false);
             setError(err.message);
             console.error(err);
+        } finally {
+            setIsSubmitting(false);
         }
     }
 
@@ -92,6 +104,13 @@ export const EventManager = ({ setDisplayAddEvent }) => {
         <div className="event-manager">
             <button onClick={() => setDisplayAddEvent(false)}>✕</button>
             <div className="event-manager-container">
+            { isSubmitting ? <div className="loader"><RotatingLines
+                            strokeColor="grey"
+                            strokeWidth="5"
+                            animationDuration="0.75"
+                            width="72"
+                            visible={true}/> </div>
+                        :''}
                 <h1>Create Event</h1>
                 <form className="create-event" onSubmit={handleSubmit}>
                     <div>
@@ -116,7 +135,7 @@ export const EventManager = ({ setDisplayAddEvent }) => {
                     </div>
                     <div>
                         <label htmlFor="stub">Stub</label>
-                        <input
+                        <textarea
                             type="text" 
                             id="eventStub" 
                             value={eventStub} 
@@ -181,7 +200,9 @@ export const EventManager = ({ setDisplayAddEvent }) => {
                             )}
                         </select>
                     </div>
-                    <button type="submit">Submit Event</button>
+                    {isSuccessful ? <p className="success-indicator">Event Submitted!</p> : ''}
+                    {error ? <p className="error-message">{error}</p> : ''}
+                    <button type="submit" disabled={isSubmitting}>Submit Event</button>
                 </form>
             </div>
         </div>
