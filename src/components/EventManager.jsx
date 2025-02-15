@@ -86,7 +86,7 @@ export const EventManager = ({ setDisplayAddEvent, setEvents }) => {
         try{
             setIsSubmitting(true);
             const response = await postEvent(formData);
-            if(response.status === 200){
+            if(response?.status === 200){
                 setIsSuccessful(true);
                 setTimeout(() => setIsSuccessful(false), 3000);
             }
@@ -103,7 +103,7 @@ export const EventManager = ({ setDisplayAddEvent, setEvents }) => {
             setIsSuccessful(false);
             setError(err.message);
             setEvents(prev => prev.slice(0,-1));
-            console.error(err);
+            console.error("Error Submitting Event");
         } finally {
             setIsSubmitting(false);
         }
@@ -126,6 +126,7 @@ export const EventManager = ({ setDisplayAddEvent, setEvents }) => {
                     <div>
                         <label htmlFor="name">Title</label>
                         <input
+                            maxlength="50"
                             type="text" 
                             id="eventName" 
                             value={eventName} 
