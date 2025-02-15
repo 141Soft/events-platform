@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { googleLogout, useGoogleLogin } from '@react-oauth/google';
 import { UserContext } from '../contexts/UserProvider';
-import { updateCalendar } from '../googleApi';
 import { postLogin } from '../api';
 
 export const LoginManager = ({ setDisplay }) => {
@@ -11,6 +10,10 @@ export const LoginManager = ({ setDisplay }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+
+    useEffect(() => {
+        console.log(user);
+    }, [user]);
 
     const login = useGoogleLogin({
         onSuccess: (response) => setUser(response),
