@@ -64,12 +64,20 @@ export const EventList = ({ searchParams, setEventCount, setError, events, setEv
                     listRef.current.scrollLeft += e.deltaY/4;
                 };
             };
+             const handleTouch = (e) => {
+                if(eventView){
+                    e.preventDefault();
+                };
+             };
+            
             const options = { passive: false };
 
             listRef.current.addEventListener('wheel', handleWheel, options);
+            listRef.current.addEventListener('touchMove', handleTouch, options);
 
             return () => {
                 listRef.current.removeEventListener('wheel', handleWheel, options)
+                listRef.current.removeEventListener('touchMove', handleTouch, options);
             };
         };
     }, [eventView]);
@@ -156,7 +164,7 @@ export const EventList = ({ searchParams, setEventCount, setError, events, setEv
                     <p>No events to show!</p>
                 </div>
                 : '' }
-            <ul className="event-list" ref={listRef}>
+            <ul className="event-list" ref={listRef} onTouchMove={handleTouch}>
                 {
                     events.map((event, index) => 
                         <li className={`event-list-entry ${index === middleIndex ? 'middle-item' : ''} ${index === middleIndex - 1 ? 'left-middle': ''} ${index === middleIndex + 1 ? 'right-middle': ''} ${index < middleIndex - 1 ? 'left': ''} ${index > middleIndex + 1 ? 'right': ''}`}                 
