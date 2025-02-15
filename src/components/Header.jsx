@@ -8,7 +8,7 @@ export const Header = ({setDisplay}) => {
 
     return (
         <header className='main-header'>
-            { user ? 
+            { user.email ? 
             <div className='google-account'>
                 <img src={user.picture} />
                 <p>{user.email}</p>

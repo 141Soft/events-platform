@@ -18,6 +18,7 @@ export const EventList = ({ searchParams, setEventCount, setError, events, setEv
     
     useEffect(()=> {
         const loadData = async() => {
+            setIsLoading(true);
             try {
                 const data = await getEvents(searchParams);
                 for(const event of data.events){
@@ -33,6 +34,8 @@ export const EventList = ({ searchParams, setEventCount, setError, events, setEv
                 console.error(err)
                 setError(err.message);
                 throw err;
+            } finally {
+                setIsLoading(false);
             }
         }
         loadData();
@@ -146,7 +149,7 @@ export const EventList = ({ searchParams, setEventCount, setError, events, setEv
         <div className="event-list-container" >
 
             { isLoading ? <div className="loader"><RotatingLines
-                            strokeColor="grey"
+                            strokeColor="#a47864"
                             strokeWidth="5"
                             animationDuration="0.75"
                             width="72"

@@ -115,7 +115,7 @@ export const EventManager = ({ setDisplayAddEvent, setEvents }) => {
             <button onClick={() => setDisplayAddEvent(false)}>✕</button>
             <div className="event-manager-container">
             { isSubmitting ? <div className="loader"><RotatingLines
-                            strokeColor="grey"
+                            strokeColor="#a47864"
                             strokeWidth="5"
                             animationDuration="0.75"
                             width="72"
