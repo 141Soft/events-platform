@@ -730,6 +730,10 @@ html, body {
         overflow-x: scroll;
     }
 
+    .event-manager-container > h1 {
+        padding-top: 2rem;
+    }
+
     .create-event > div > input{
         height: 1.5rem;
     }
@@ -743,9 +747,7 @@ html, body {
     
     .create-event > button {
         padding: 0.5rem;
-        position:static;
-        margin-top: 2rem;
-        margin-left: 13rem;
+        margin-bottom: 3rem;
     }
     
     .create-event > div > select {
