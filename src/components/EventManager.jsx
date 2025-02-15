@@ -3,7 +3,7 @@ import { getTags, postEvent } from "../api";
 import { RotatingLines } from "react-loader-spinner";
 
 
-export const EventManager = ({ setDisplayAddEvent }) => {
+export const EventManager = ({ setDisplayAddEvent, setEvents }) => {
 
     const [eventName, setEventName] = useState('');
     const [eventDate, setEventDate] = useState('');
@@ -74,6 +74,15 @@ export const EventManager = ({ setDisplayAddEvent }) => {
             formData.append('eventTags', selectedTags);
             formData.append('eventDate', formatDateTime(eventDate, eventTime));
             formData.append('eventDuration', eventDuration);
+            setEvents(prev => [...prev, {
+                image: URL.createObjectURL(eventThumbnail),
+                eventName,
+                eventDesc,
+                eventStub,
+                tags: selectedTags,
+                eventDate: formatDateTime(eventDate, eventTime),
+                eventDuration,
+            }])
         try{
             setIsSubmitting(true);
             const response = await postEvent(formData);
@@ -93,6 +102,7 @@ export const EventManager = ({ setDisplayAddEvent }) => {
             setIsSubmitting(false);
             setIsSuccessful(false);
             setError(err.message);
+            setEvents(prev => prev.slice(0,-1));
             console.error(err);
         } finally {
             setIsSubmitting(false);

@@ -13,6 +13,7 @@ export const App = () => {
   const [error, setError] = useState()
   const [display, setDisplay] = useState(false);
   const [displayAddEvent, setDisplayAddEvent] = useState(false);
+  const [events, setEvents] = useState([]);
   
   //params: id, name, tag, paginate, page, limit
   //pagination parameters are placed here for now
@@ -33,8 +34,8 @@ export const App = () => {
         <p className='event-counter'>Browsing {eventCount} {eventCount === 1 ? 'event' : 'events'}</p>
         {display ? <LoginManager setDisplay={setDisplay} error={error} setError={setError}/> : ''}
         <SearchBar setSearchParams={setSearchParams} setError={setError} setDisplayAddEvent={setDisplayAddEvent}/>
-        {displayAddEvent ? <EventManager setDisplayAddEvent={setDisplayAddEvent}/> : ''}
-        <EventList searchParams={searchParams} setEventCount={setEventCount} setError={setError}/>
+        {displayAddEvent ? <EventManager setDisplayAddEvent={setDisplayAddEvent} setEvents={setEvents}/> : ''}
+        <EventList searchParams={searchParams} setEventCount={setEventCount} setError={setError} events={events} setEvents={setEvents}/>
       </div>
     </UserProvider>
   )
