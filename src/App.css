@@ -658,10 +658,6 @@ html, body {
         vertical-align: middle;
     }
 
-    .no-scroll {
-        overflow-x: hidden;
-    }
-
     .event-view {
         width: 100vw;
     }

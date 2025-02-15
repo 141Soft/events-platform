@@ -11,11 +11,13 @@ export const EventView = ({ eventView, setEventView, listRef, setHasJoined, hasJ
     const [pressed, setPressed] = useState(false);
     const [isHidden, setIsHidden] = useState(false);
     const [success, setSuccess] = useState(false);
+    const [hasScrolled, setHasScrolled] = useState(false);
     const { date, time } = formatDateTime(eventView.eventDate);
 
     useEffect(() => {
-        if(eventRef.current){
+        if(eventRef.current && !hasScrolled){
             eventRef.current.scrollIntoView({behavior: 'smooth', block:'start'});
+            setHasScrolled(true);
         }
     });
 
