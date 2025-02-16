@@ -55,7 +55,7 @@ export const Header = ({setDisplay}) => {
             setLoggingIn(true)
             const res = await postLogin(email, password);
             if(res?.status !== 'success'){
-                throw new Error('Login Failed');
+                 new Error('Login Failed');
             };
             setAdminUser(res.user);
             setEmail('');

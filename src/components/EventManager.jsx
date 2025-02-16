@@ -70,6 +70,11 @@ export const EventManager = ({ setDisplayAddEvent, setEvents }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setError('');
+        if(selectedTags.length === 0){
+            setError('Select at least one tag');
+            return false;
+        };
             //assemble the form data here
             const formData = new FormData();
             formData.append('image', eventThumbnail);
@@ -96,11 +101,12 @@ export const EventManager = ({ setDisplayAddEvent, setEvents }) => {
                 setTimeout(() => setIsSuccessful(false), 3000);
             }
             setEventName('');
+            setEventTime('');
             setEventDate('');
             setEventDesc('');
             setEventStub('');
             setEventDuration(1);
-            setEventThumbnail(null);
+            setEventThumbnail('');
             setPreviewUrl(null);
             setSelectedEventTags([]);
         } catch (err) {
@@ -148,6 +154,7 @@ export const EventManager = ({ setDisplayAddEvent, setEvents }) => {
                             id="image-upload" 
                             accept="image/*" 
                             onChange={handleThumbChange}
+                            required
                         />
                     </div>
                     <div>
@@ -220,8 +227,10 @@ export const EventManager = ({ setDisplayAddEvent, setEvents }) => {
                             )}
                         </ul>
                     </div>
-                    {isSuccessful ? <p className="success-indicator">Event Submitted!</p> : ''}
                     {error ? <p className="error-message">{error}</p> : ''}
+                    {error ? <p style={{color: 'red', textAlign: 'center'}}>{error}</p>: ''}
+                    {isSuccessful ? <p className="success-indicator">Event Submitted!</p> : ''}
+                    {isSuccessful ? <p style={{textAlign: 'center'}}>Event Submitted!</p>: ''}
                     <button type="submit" disabled={isSubmitting}>Submit Event</button>
                 </form>
             </div>
