@@ -17,9 +17,15 @@ export const SearchBar = ({setSearchParams, setError, setDisplayAddEvent}) => {
           try {
             const data = await getTags();
             setSearchTags(data.tags.filter((tag) => tag !== ""));
+            if(!data){
+                setError("Error fetching data");
+                setTimeout(()=> setError(""), 3000);
+                return false;
+            }
           } catch (err) {
             console.error(err);
             setError(err.message || 'Tag loading failed');
+            setTimeout(()=> setError(""), 3000);
           }
         }
         loadTags();

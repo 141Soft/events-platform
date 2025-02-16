@@ -3,7 +3,6 @@ import { EventList } from './components/EventList'
 import React, { useState } from 'react';
 import { SearchBar } from './components/SearchBar';
 import { UserProvider } from './contexts/UserProvider';
-import { LoginManager } from './components/LoginManager';
 import { EventManager } from './components/EventManager';
 import { Header } from './components/Header';
 
@@ -11,7 +10,6 @@ export const App = () => {
 
   //For displaying errors in UI
   const [error, setError] = useState()
-  const [display, setDisplay] = useState(false);
   const [displayAddEvent, setDisplayAddEvent] = useState(false);
   const [events, setEvents] = useState([]);
   
@@ -22,11 +20,10 @@ export const App = () => {
 
   return (
     <UserProvider>
-      <Header setDisplay={setDisplay}/>
-      { error ? <p>{error}</p> : '' }
+      <Header />
+      { error ? <p className='error-message'>{error}</p> : '' }
       <div className='main-content'>
         <p className='event-counter'>Browsing {eventCount} {eventCount === 1 ? 'event' : 'events'}</p>
-        {display ? <LoginManager setDisplay={setDisplay} error={error} setError={setError}/> : ''}
         <SearchBar setSearchParams={setSearchParams} setError={setError} setDisplayAddEvent={setDisplayAddEvent}/>
         {displayAddEvent ? <EventManager setDisplayAddEvent={setDisplayAddEvent} setEvents={setEvents}/> : ''}
         <EventList searchParams={searchParams} setEventCount={setEventCount} setError={setError} events={events} setEvents={setEvents}/>

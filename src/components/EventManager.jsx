@@ -26,6 +26,11 @@ export const EventManager = ({ setDisplayAddEvent, setEvents }) => {
             try {
                 const data = await getTags();
                 setSearchTags(prev => [...prev, ...data.tags.filter((tag) => !prev.includes(tag) && tag !== "")]);
+                if(!data){
+                    setError('Tag loading failed');
+                    setTimeout(()=> setError(""), 3000);
+                    return false;
+                }
             } catch (err) {
                 console.error(err);
                 setError(err.message || 'Tag loading failed');

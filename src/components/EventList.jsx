@@ -21,6 +21,11 @@ export const EventList = ({ searchParams, setEventCount, setError, events, setEv
             setIsLoading(true);
             try {
                 const data = await getEvents(searchParams);
+                if(!data){
+                    setError("Error retrieving events");
+                    setTimeout(()=> setError(""), 3000);
+                    return false;
+                }
                 for(const event of data.events){
                     const image = await getImage(event.eventThumb);
                     event.image = URL.createObjectURL(image);
