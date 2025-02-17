@@ -139,19 +139,19 @@ export const EventView = ({ eventView, setEventView, listRef, setHasJoined, hasJ
                                 {hasJoined.includes(eventView.id) ? 
                                 '✓' 
                                 : 
-                                <img src="src/assets/calendar.svg" alt="Calendar"/>
+                                <img src="/assets/calendar.svg" alt="Calendar"/>
                                 }
                                 </button>
                             <button className="join-event-button" title="Join Event" disabled={joinedEvents.includes(eventView.id)} onClick={joinEvent}>
                                 {joinedEvents.includes(eventView.id) ?
                                 '✓'
                                 :    
-                                <img src="src/assets/person-plus.svg" alt="Add Event"/>
+                                <img src="/assets/person-plus.svg" alt="Add Event"/>
                                 }
                             </button>
                             {adminUser.isAdmin ? 
                             <button className="delete-event-button" title="Delete Event" disabled={!adminUser.isAdmin} onClick={deleteEvent}>
-                                <img src="src/assets/trash-can.svg" alt="Delete"/>
+                                <img src="/assets/trash-can.svg" alt="Delete"/>
                             </button>
                             : ''}
                         </div>
