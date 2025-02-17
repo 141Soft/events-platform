@@ -81,3 +81,13 @@ export const postEventParticipant = async (eventID, userEmail) => {
     };
 }
 
+export const getUserEvents = async (userEmail) => {
+    try {
+        const res = await serverApi.get(`/users/events?email=${userEmail}`);
+        return res.data;
+    } catch (err) {
+        console.error(err);
+        throw err;
+    };
+};
+

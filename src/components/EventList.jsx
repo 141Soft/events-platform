@@ -1,19 +1,44 @@
-import React, { useEffect, useState, useRef, useCallback } from "react";
+import React, { useEffect, useState, useRef, useCallback, useContext } from "react";
 import { MemoEventThumb } from "./EventThumb";
-import { getEvents, getImage } from "../api";
+import { getEvents, getImage, getUserEvents } from "../api";
 import debounce from "lodash.debounce";
 import { EventView } from "./EventView";
 import { RotatingLines } from "react-loader-spinner";
+import { UserContext } from "../contexts/UserProvider";
 
-export const EventList = ({ searchParams, setEventCount, setError, events, setEvents, joinedEvents, setJoinedEvents }) => {
+export const EventList = ({ searchParams, setEventCount, setError, events, setEvents }) => {
     const [isLoading, setIsLoading] = useState(true);
     const [totalPages, setTotalPages] = useState(1);
     const [pageRef, setPageRef] = useState(1);
     const [middleIndex, setMiddleIndex] = useState(-1);
     const [eventView, setEventView] = useState(null);
     const [hasJoined, setHasJoined] = useState([]);
+    const [joinedEvents, setJoinedEvents] = useState([]);
     const listRef = useRef(null);
-    
+    const { user } = useContext(UserContext);
+
+    useEffect(() => {
+        const loadUserEvents = async() => {
+            try{
+                const events = await getUserEvents(user?.email);
+                if(events.length === 0){
+                    return false;
+                };
+                const eventIDs = events.map((e) => e = e.id);
+                setJoinedEvents([...eventIDs]);
+            } catch(err) {
+                console.error(err);
+                setError(err.message);
+                setTimeout(()=> setError(false), 3000);
+                throw err;
+            }
+        }
+        if(user?.email){
+            loadUserEvents();
+        } else {
+            setJoinedEvents([]);
+        };
+    }, [user]);
     
     useEffect(()=> {
         const loadData = async() => {
