@@ -71,3 +71,13 @@ export const postLogin = async (email, password) => {
     };
 }
 
+export const postEventParticipant = async (eventID, userEmail) => {
+    try {
+        const res = await serverApi.post(`/events/participants?id=${eventID}&email=${userEmail}`);
+        return res;
+    } catch (err) {
+        console.error(err);
+        throw err
+    };
+}
+

@@ -5,14 +5,13 @@ import debounce from "lodash.debounce";
 import { EventView } from "./EventView";
 import { RotatingLines } from "react-loader-spinner";
 
-export const EventList = ({ searchParams, setEventCount, setError, events, setEvents }) => {
+export const EventList = ({ searchParams, setEventCount, setError, events, setEvents, joinedEvents, setJoinedEvents }) => {
     const [isLoading, setIsLoading] = useState(true);
     const [totalPages, setTotalPages] = useState(1);
     const [pageRef, setPageRef] = useState(1);
     const [middleIndex, setMiddleIndex] = useState(-1);
     const [eventView, setEventView] = useState(null);
     const [hasJoined, setHasJoined] = useState([]);
-    // const [events, setEvents] = useState([]);
     const listRef = useRef(null);
     
     
@@ -179,7 +178,7 @@ export const EventList = ({ searchParams, setEventCount, setError, events, setEv
                 }
             </ul>
         </div>
-        { eventView ? <EventView eventView={eventView} setEventView={setEventView} listRef={listRef} setHasJoined={setHasJoined} hasJoined={hasJoined} setError={setError}/> : '' }
+        { eventView ? <EventView eventView={eventView} setEventView={setEventView} listRef={listRef} setHasJoined={setHasJoined} hasJoined={hasJoined} setError={setError} joinedEvents={joinedEvents} setJoinedEvents={setJoinedEvents}/> : '' }
         </>
         )
     }
