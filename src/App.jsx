@@ -20,7 +20,7 @@ export const App = () => {
 
   return (
     <UserProvider>
-      <Header />
+      <Header setEvents={setEvents}/>
       { error ? <p className='error-message'>{error}</p> : '' }
       <div className='main-content'>
         <p className='event-counter'>Browsing {eventCount} {eventCount === 1 ? 'event' : 'events'}</p>

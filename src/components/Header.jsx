@@ -4,9 +4,11 @@ import { useGoogleLogin } from '@react-oauth/google';
 import { getUser } from '../googleApi';
 import { postLogin } from "../api";
 import { RotatingLines } from "react-loader-spinner";
+import { getUserEvents } from "../api";
+import { getImage } from "../api";
 
 
-export const Header = ({setDisplay}) => {
+export const Header = ({ setEvents }) => {
 
     const { user, setUser } = useContext(UserContext);
     const { adminUser, setAdminUser } = useContext(UserContext);
@@ -27,9 +29,24 @@ export const Header = ({setDisplay}) => {
         }
     }, [displayOptions]);
 
-    const displayUserEvents = () => {
+    const displayUserEvents = async () => {
         setDisplayOptions(false);
-    }
+        try{
+            const events = await getUserEvents(user?.email);
+            if(events.length !== 0){
+                for(const event of events){
+                    const image = await getImage(event.eventThumb);
+                    event.image = URL.createObjectURL(image);
+                };
+            } 
+            setEvents(events);
+        } catch(err) {
+            console.error(err);
+            setError(err.message);
+            setTimeout(()=> setError(false), 3000);
+            throw err;
+        };
+    };
 
     const generateUser = async(response) => {
         const { data } = await getUser(response.access_token);
