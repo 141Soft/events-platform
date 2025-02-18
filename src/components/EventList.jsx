@@ -6,12 +6,10 @@ import { EventView } from "./EventView";
 import { RotatingLines } from "react-loader-spinner";
 import { UserContext } from "../contexts/UserProvider";
 
-export const EventList = ({ searchParams, setEventCount, setError, events, setEvents }) => {
-    const [isLoading, setIsLoading] = useState(true);
+export const EventList = ({ searchParams, setEventCount, setError, events, setEvents, eventView, setEventView, isLoading, setIsLoading, displayUserEvents }) => {
     const [totalPages, setTotalPages] = useState(1);
     const [pageRef, setPageRef] = useState(1);
     const [middleIndex, setMiddleIndex] = useState(-1);
-    const [eventView, setEventView] = useState(null);
     const [hasJoined, setHasJoined] = useState([]);
     const [joinedEvents, setJoinedEvents] = useState([]);
     const listRef = useRef(null);
@@ -135,7 +133,7 @@ export const EventList = ({ searchParams, setEventCount, setError, events, setEv
 
     useEffect(() => {
         //infinite scroll
-        if (middleIndex === events.length - 3 && pageRef !== totalPages && events.length !== 0 && !isLoading) {
+        if (middleIndex === events.length - 3 && pageRef !== totalPages && events.length !== 0 && !isLoading && !displayUserEvents) {
             const loadNextPage = async() => {
                 try {
                     const newSearchParams = {...searchParams};

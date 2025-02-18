@@ -8,7 +8,7 @@ import { getUserEvents } from "../api";
 import { getImage } from "../api";
 
 
-export const Header = ({ setEvents }) => {
+export const Header = ({ setEvents, displayUserEvents, setDisplayUserEvents, setSearchParams, setEventView, setIsLoading }) => {
 
     const { user, setUser } = useContext(UserContext);
     const { adminUser, setAdminUser } = useContext(UserContext);
@@ -29,9 +29,15 @@ export const Header = ({ setEvents }) => {
         }
     }, [displayOptions]);
 
-    const displayUserEvents = async () => {
-        setDisplayOptions(false);
+    const displayUserEvs = async () => {
+        setDisplayUserEvents(prev => !prev);
+        setEventView(null);
+        if(displayUserEvents){
+            setSearchParams(prev => ({...prev}));
+            return false;
+        };
         try{
+            setIsLoading(true);
             const events = await getUserEvents(user?.email);
             if(events.length !== 0){
                 for(const event of events){
@@ -45,7 +51,9 @@ export const Header = ({ setEvents }) => {
             setError(err.message);
             setTimeout(()=> setError(false), 3000);
             throw err;
-        };
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     const generateUser = async(response) => {
@@ -105,7 +113,7 @@ export const Header = ({ setEvents }) => {
             </header>
             {displayOptions ? 
                 <div className="options-menu" ref={ref}>
-                        {user?.email ? <button title="Display your signed up events" onClick={displayUserEvents}>View my events</button> : ''}
+                        {user?.email ? <button title="Display your signed up events" style={{textDecoration: displayUserEvents ? 'underline' : ''}} onClick={displayUserEvs}>View my events</button> : ''}
                         {user?.access_token ? 
                             <button title="Disconnect Google Account" onClick={() => setUser(null)}>Google Logout</button> 
                             : 
