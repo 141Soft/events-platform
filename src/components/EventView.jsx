@@ -6,7 +6,7 @@ import { formatDateTime } from "../utils/parsers";
 import { getUser } from "../googleApi";
 import { postEventParticipant } from "../api";
 
-export const EventView = ({ eventView, setEventView, listRef, setHasJoined, hasJoined, setError, joinedEvents, setJoinedEvents }) => {
+export const EventView = ({ eventView, setEventView, listRef, setError, joinedEvents, setJoinedEvents }) => {
 
     const eventRef = useRef(null);
     const { user, setUser } = useContext(UserContext);
@@ -51,7 +51,6 @@ export const EventView = ({ eventView, setEventView, listRef, setHasJoined, hasJ
                 const res = await updateCalendar(user.access_token, eventView);
                 setPressed(false);
                 if(res.status === 200){
-                    setHasJoined(prev => [...prev, eventView.id]);
                     setSuccess("Event added to Calendar!");
                     setTimeout(() => setSuccess(false), 3000)
                 };
@@ -74,14 +73,11 @@ export const EventView = ({ eventView, setEventView, listRef, setHasJoined, hasJ
             if(!user?.access_token){
                 const res = login();
                 setPressed(true);
-            } 
-            if(!hasJoined.includes(eventView.id) && !pressed){
-                const res = await updateCalendar(user.access_token, eventView);
-                setHasJoined(prev => [...prev, eventView.id]);
-                if(res.status === 200){
-                    setSuccess("Event added to Calendar!");
-                    setTimeout(() => setSuccess(false), 3000);
-                };
+            }
+            const res = await updateCalendar(user.access_token, eventView);
+            if(res.status === 200){
+                setSuccess("Event added to Calendar!");
+                setTimeout(() => setSuccess(false), 3000);
             };
         } catch (error) {
             if(user?.access_token){
@@ -135,13 +131,9 @@ export const EventView = ({ eventView, setEventView, listRef, setHasJoined, hasJ
                 <div className="event-view-details">
                     <div>
                         <div className="button-container">
-                            <button className="join-event-button" title="Add Event to Calendar" disabled={hasJoined.includes(eventView.id)} onClick={addEventToCalendar}>
-                                {hasJoined.includes(eventView.id) ? 
-                                '✓' 
-                                : 
+                            <button className="join-event-button" title="Add Event to Calendar" onClick={addEventToCalendar}>
                                 <img src="/assets/calendar.svg" alt="Calendar"/>
-                                }
-                                </button>
+                            </button>
                             <button className="join-event-button" title="Join Event" disabled={joinedEvents.includes(eventView.id)} onClick={joinEvent}>
                                 {joinedEvents.includes(eventView.id) ?
                                 '✓'

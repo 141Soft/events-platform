@@ -10,7 +10,6 @@ export const EventList = ({ searchParams, setEventCount, setError, events, setEv
     const [totalPages, setTotalPages] = useState(1);
     const [pageRef, setPageRef] = useState(1);
     const [middleIndex, setMiddleIndex] = useState(-1);
-    const [hasJoined, setHasJoined] = useState([]);
     const [joinedEvents, setJoinedEvents] = useState([]);
     const listRef = useRef(null);
     const { user } = useContext(UserContext);
@@ -201,7 +200,7 @@ export const EventList = ({ searchParams, setEventCount, setError, events, setEv
                 }
             </ul>
         </div>
-        { eventView ? <EventView eventView={eventView} setEventView={setEventView} listRef={listRef} setHasJoined={setHasJoined} hasJoined={hasJoined} setError={setError} joinedEvents={joinedEvents} setJoinedEvents={setJoinedEvents}/> : '' }
+        { eventView ? <EventView eventView={eventView} setEventView={setEventView} listRef={listRef} setError={setError} joinedEvents={joinedEvents} setJoinedEvents={setJoinedEvents}/> : '' }
         </>
         )
     }
