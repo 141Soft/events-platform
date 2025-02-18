@@ -165,13 +165,9 @@ export const EventList = ({ searchParams, setEventCount, setError, events, setEv
         const i = Number(e.currentTarget.getAttribute('index'));
         if(i === middleIndex){
             setEventView(events[i]);
-        }
+        };
+    };
 
-    }
-
-
-
-    //Conditional on events array and fetched status
     return (
         <>
         <div className="event-list-container" >
@@ -196,7 +192,7 @@ export const EventList = ({ searchParams, setEventCount, setError, events, setEv
                                         index={index}
                                         onClick={handleClick}
                                         >
-                            <MemoEventThumb event={event} index={index} middleIndex={middleIndex} setEventView={setEventView}/>
+                            <MemoEventThumb event={event} isMiddle={index === middleIndex} listRef={listRef}/>
                         </li>
                     )
                 }

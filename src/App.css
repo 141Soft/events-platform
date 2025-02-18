@@ -124,6 +124,7 @@ html, body {
 
 .event-list{
     list-style-type: none;
+    scroll-snap-type: 'x mandatory';
     overflow-x: auto;
     white-space: nowrap;
     width: 100vw;
@@ -964,7 +965,10 @@ html, body {
         width: 3rem;
         height: 3rem;
     }
-    
+
+    .scroll-message {
+        display: none;
+    }
 }
 
 
