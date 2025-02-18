@@ -926,6 +926,11 @@ html, body {
         overflow-x: scroll;
     }
 
+    .event-thumb > h1 {
+        -webkit-text-stroke: 0 transparent;
+        text-shadow: 0.1rem 0.1rem 0.1rem #22201e;
+    }
+
     .event-manager-container > h1 {
         padding-top: 2rem;
     }
