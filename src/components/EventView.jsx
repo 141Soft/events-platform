@@ -129,11 +129,15 @@ export const EventView = ({ events, setEvents, eventView, setEventView, listRef,
     }
 
     const deleteEvent = async () => {
+        if(isDeleted){
+            setError('Event already deleted');
+            setTimeout(()=>{setError('')}, 3000);
+            return false;
+        };
         try {
             setIsDeleted(true);
             const res = await removeDBEvent(eventView?.id);
             const i = events.findIndex((e) => e.id === eventView.id);
-            const indexID = events[i].id;
             const updatedEvents = events.filter((e) => e.id !== eventView.id);
             setSuccess(res.msg);
             setTimeout(() => {
@@ -176,7 +180,7 @@ export const EventView = ({ events, setEvents, eventView, setEventView, listRef,
                                 }
                             </button>
                             {adminUser.isAdmin ? 
-                            <button className="delete-event-button" title="Delete Event" disabled={!adminUser.isAdmin || isDeleted} onClick={deleteEvent}>
+                            <button className="delete-event-button" title="Delete Event" disabled={!adminUser.isAdmin} onClick={deleteEvent}>
                                 <img src="/assets/trash-can.svg" alt="Delete"/>
                             </button>
                             : ''}

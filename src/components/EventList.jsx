@@ -200,7 +200,7 @@ export const EventList = ({ searchParams, setEventCount, setError, events, setEv
                     )
                 }
             </ul>
-            <p className={`scroll-message  ${displayInstruction ? 'visible' : 'hidden'}`}>⟸ Scroll to explore ⟹</p>
+            { events.length === 0 ? '' : <p className={`scroll-message  ${displayInstruction ? 'visible' : 'hidden'}`}>⟸ Scroll to explore ⟹</p> }
         </div>
         { eventView ? <EventView events={events} setEvents={setEvents} eventView={eventView} setEventView={setEventView} listRef={listRef} joinedEvents={joinedEvents} setJoinedEvents={setJoinedEvents} setEventCount={setEventCount} hasCalendar={hasCalendar} setHasCalendar={setHasCalendar}/> : '' }
         </>
