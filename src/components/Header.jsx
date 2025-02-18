@@ -80,7 +80,7 @@ export const Header = ({ setEvents, displayUserEvents, setDisplayUserEvents, set
             setLoggingIn(true)
             const res = await postLogin(email, password);
             if(res?.status !== 'success'){
-                 new Error('Login Failed');
+                throw new Error('Login Failed');
             };
             setAdminUser(res.user);
             setEmail('');
