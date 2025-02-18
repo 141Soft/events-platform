@@ -3,7 +3,7 @@ import { getTags, postEvent } from "../api";
 import { RotatingLines } from "react-loader-spinner";
 
 
-export const EventManager = ({ setDisplayAddEvent, setEvents }) => {
+export const EventManager = ({ setDisplayAddEvent, setEvents, setEventCount }) => {
 
     const [eventName, setEventName] = useState('');
     const [eventDate, setEventDate] = useState('');
@@ -109,6 +109,7 @@ export const EventManager = ({ setDisplayAddEvent, setEvents }) => {
             setEventThumbnail('');
             setPreviewUrl(null);
             setSelectedEventTags([]);
+            setEventCount(prev => prev+=1);
         } catch (err) {
             setIsSubmitting(false);
             setIsSuccessful(false);

@@ -30,7 +30,7 @@ export const App = () => {
       <div className='main-content'>
         <EventCounter events={events} eventCount={eventCount} displayUserEvents={displayUserEvents} setDisplayUserEvents={setDisplayUserEvents} setSearchParams={setSearchParams} isLoading={isLoading}/>
         <SearchBar setSearchParams={setSearchParams} setError={setError} setDisplayAddEvent={setDisplayAddEvent} displayUserEvents={displayUserEvents}/>
-        {displayAddEvent ? <EventManager setDisplayAddEvent={setDisplayAddEvent} setEvents={setEvents}/> : ''}
+        {displayAddEvent ? <EventManager setDisplayAddEvent={setDisplayAddEvent} setEvents={setEvents} setEventCount={setEventCount}/> : ''}
         <EventList searchParams={searchParams} setError={setError} events={events} setEvents={setEvents} eventView={eventView} setEventView={setEventView} isLoading={isLoading} setIsLoading={setIsLoading} setDisplayUserEvents={setDisplayUserEvents} displayUserEvents={displayUserEvents} setEventCount={setEventCount} hasCalendar={hasCalendar} setHasCalendar={setHasCalendar}/>
       </div>
     </UserProvider>
