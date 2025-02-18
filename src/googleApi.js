@@ -7,8 +7,6 @@ const googleApi = axios.create({
 
 export const updateCalendar = async (accessToken, event) => {
 
-     
-    
     const eventToPost = {
         "start": {
             "dateTime": event.eventDate,

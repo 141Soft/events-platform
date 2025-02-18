@@ -16,6 +16,7 @@ export const App = () => {
   const [events, setEvents] = useState([]);
   const [eventView, setEventView] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [hasCalendar, setHasCalendar] = useState(false);
   
   //params: id, name, tag, paginate, page, limit
   //pagination parameters are placed here for now
@@ -24,13 +25,13 @@ export const App = () => {
 
   return (
     <UserProvider>
-      <Header setEvents={setEvents} displayUserEvents={displayUserEvents} setDisplayUserEvents={setDisplayUserEvents} setSearchParams={setSearchParams} setEventView={setEventView} setIsLoading={setIsLoading}/>
+      <Header setEvents={setEvents} displayUserEvents={displayUserEvents} setDisplayUserEvents={setDisplayUserEvents} setSearchParams={setSearchParams} setEventView={setEventView} setIsLoading={setIsLoading} setHasCalendar={setHasCalendar}/>
       { error ? <p className='error-message'>{error}</p> : '' }
       <div className='main-content'>
         <EventCounter events={events} eventCount={eventCount} displayUserEvents={displayUserEvents} setDisplayUserEvents={setDisplayUserEvents} setSearchParams={setSearchParams} isLoading={isLoading}/>
         <SearchBar setSearchParams={setSearchParams} setError={setError} setDisplayAddEvent={setDisplayAddEvent}/>
         {displayAddEvent ? <EventManager setDisplayAddEvent={setDisplayAddEvent} setEvents={setEvents}/> : ''}
-        <EventList searchParams={searchParams} setError={setError} events={events} setEvents={setEvents} eventView={eventView} setEventView={setEventView} isLoading={isLoading} setIsLoading={setIsLoading} displayUserEvents={displayUserEvents} setEventCount={setEventCount}/>
+        <EventList searchParams={searchParams} setError={setError} events={events} setEvents={setEvents} eventView={eventView} setEventView={setEventView} isLoading={isLoading} setIsLoading={setIsLoading} displayUserEvents={displayUserEvents} setEventCount={setEventCount} hasCalendar={hasCalendar} setHasCalendar={setHasCalendar}/>
       </div>
     </UserProvider>
   )

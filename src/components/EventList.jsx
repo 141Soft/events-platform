@@ -6,7 +6,7 @@ import { EventView } from "./EventView";
 import { RotatingLines } from "react-loader-spinner";
 import { UserContext } from "../contexts/UserProvider";
 
-export const EventList = ({ searchParams, setEventCount, setError, events, setEvents, eventView, setEventView, isLoading, setIsLoading, displayUserEvents }) => {
+export const EventList = ({ searchParams, setEventCount, setError, events, setEvents, eventView, setEventView, isLoading, setIsLoading, displayUserEvents, hasCalendar, setHasCalendar }) => {
     const [totalPages, setTotalPages] = useState(1);
     const [pageRef, setPageRef] = useState(1);
     const [middleIndex, setMiddleIndex] = useState(-1);
@@ -202,7 +202,7 @@ export const EventList = ({ searchParams, setEventCount, setError, events, setEv
             </ul>
             <p className={`scroll-message  ${displayInstruction ? 'visible' : 'hidden'}`}>⟸ Scroll to explore ⟹</p>
         </div>
-        { eventView ? <EventView events={events} setEvents={setEvents} eventView={eventView} setEventView={setEventView} listRef={listRef} joinedEvents={joinedEvents} setJoinedEvents={setJoinedEvents} setEventCount={setEventCount}/> : '' }
+        { eventView ? <EventView events={events} setEvents={setEvents} eventView={eventView} setEventView={setEventView} listRef={listRef} joinedEvents={joinedEvents} setJoinedEvents={setJoinedEvents} setEventCount={setEventCount} hasCalendar={hasCalendar} setHasCalendar={setHasCalendar}/> : '' }
         </>
         )
     }

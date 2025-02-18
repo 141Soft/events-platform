@@ -6,7 +6,7 @@ import { formatDateTime } from "../utils/parsers";
 import { getUser } from "../googleApi";
 import { postEventParticipant, removeDBEvent } from "../api";
 
-export const EventView = ({ events, setEvents, eventView, setEventView, listRef, joinedEvents, setJoinedEvents, setEventCount }) => {
+export const EventView = ({ events, setEvents, eventView, setEventView, listRef, joinedEvents, setJoinedEvents, setEventCount, hasCalendar, setHasCalendar }) => {
 
     const eventRef = useRef(null);
     const { user, setUser } = useContext(UserContext);
@@ -40,6 +40,13 @@ export const EventView = ({ events, setEvents, eventView, setEventView, listRef,
     const generateUser = async(response) => {
         const { data } = await getUser(response.access_token);
         setUser({...response, email: data.email, picture: data.picture});
+        if(!response.scope.split(" ").includes('email')){
+            setError("Please grant calendar access to use the calendar");
+            setTimeout(()=>{setError('')}, 3000);
+            setHasCalendar(false);
+        } else {
+            setHasCalendar(true);
+        };
     };
 
     const login = useGoogleLogin({
@@ -76,7 +83,12 @@ export const EventView = ({ events, setEvents, eventView, setEventView, listRef,
             if(!user?.access_token){
                 const res = login();
                 setPressed(true);
-            }
+            };
+            if(!hasCalendar && user?.access_token){
+                setError("Calendar not connected");
+                setTimeout(()=> setError(""), 3000);
+                return false
+            };
             const res = await updateCalendar(user.access_token, eventView);
             if(res.status === 200){
                 setSuccess("Event added to Calendar!");

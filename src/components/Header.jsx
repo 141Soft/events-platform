@@ -59,6 +59,13 @@ export const Header = ({ setEvents, displayUserEvents, setDisplayUserEvents, set
     const generateUser = async(response) => {
         const { data } = await getUser(response.access_token);
         setUser({...response, email: data.email, picture: data.picture});
+        if(!response.scope.split(" ").includes('email')){
+            setError("Please grant calendar access to use the calendar");
+            setTimeout(()=>{setError('')}, 3000);
+            setHasCalendar(false);
+        } else {
+            setHasCalendar(true);
+        }
     };
 
     const login = useGoogleLogin({
@@ -115,7 +122,7 @@ export const Header = ({ setEvents, displayUserEvents, setDisplayUserEvents, set
                 <div className="options-menu" ref={ref}>
                         {user?.email ? <button title="Display your signed up events" style={{textDecoration: displayUserEvents ? 'underline' : ''}} onClick={displayUserEvs}>View my events</button> : ''}
                         {user?.access_token ? 
-                            <button title="Disconnect Google Account" onClick={() => setUser(null)}>Google Logout</button> 
+                            <button title="Disconnect Google Account" onClick={() => {setUser(null); setHasCalendar(false)}}>Google Logout</button> 
                             : 
                             <button title="Connect Google Account" onClick={login}>Google Login</button>
                             }
