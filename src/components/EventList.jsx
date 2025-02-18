@@ -11,6 +11,7 @@ export const EventList = ({ searchParams, setEventCount, setError, events, setEv
     const [pageRef, setPageRef] = useState(1);
     const [middleIndex, setMiddleIndex] = useState(-1);
     const [joinedEvents, setJoinedEvents] = useState([]);
+    const [displayInstruction, setDisplayInstruction] = useState(false);
     const listRef = useRef(null);
     const { user } = useContext(UserContext);
 
@@ -186,7 +187,7 @@ export const EventList = ({ searchParams, setEventCount, setError, events, setEv
                     <p>No events to show!</p>
                 </div>
                 : '' }
-            <ul className="event-list" ref={listRef}>
+            <ul className="event-list" ref={listRef} onMouseEnter={() => setDisplayInstruction(true)} onMouseLeave={() => setDisplayInstruction(false)}>
                 {
                     events.map((event, index) => 
                         <li className={`event-list-entry ${index === middleIndex ? 'middle-item' : ''} ${index === middleIndex - 1 ? 'left-middle': ''} ${index === middleIndex + 1 ? 'right-middle': ''} ${index < middleIndex - 1 ? 'left': ''} ${index > middleIndex + 1 ? 'right': ''}`}                 
@@ -199,6 +200,7 @@ export const EventList = ({ searchParams, setEventCount, setError, events, setEv
                     )
                 }
             </ul>
+            <p className={`scroll-message  ${displayInstruction ? 'visible' : 'hidden'}`}>⟸ Scroll to explore ⟹</p>
         </div>
         { eventView ? <EventView events={events} setEvents={setEvents} eventView={eventView} setEventView={setEventView} listRef={listRef} joinedEvents={joinedEvents} setJoinedEvents={setJoinedEvents} setEventCount={setEventCount}/> : '' }
         </>

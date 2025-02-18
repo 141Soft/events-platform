@@ -132,10 +132,31 @@ html, body {
     padding-top: 3rem;
     padding-bottom: 3rem;
     margin-top: 2rem;
-    margin-bottom: 4rem;
 
     -ms-overflow-style: none;  /* IE and Edge */
     scrollbar-width: none;  /* Firefox */
+}
+
+.event-list-container {
+    margin-bottom: 4rem;
+}
+
+.scroll-message {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.visible {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.4s linear;
+  }
+
+.hidden {
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s 0.4s, opacity 0.4s linear;
 }
 
 /* Hide scrollbar for Chrome, Safari and Opera */
