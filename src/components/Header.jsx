@@ -8,7 +8,7 @@ import { getUserEvents } from "../api";
 import { getImage } from "../api";
 
 
-export const Header = ({ setEvents, displayUserEvents, setDisplayUserEvents, setSearchParams, setEventView, setIsLoading }) => {
+export const Header = ({ setEvents, displayUserEvents, setDisplayUserEvents, setSearchParams, setEventView, setIsLoading, setHasCalendar }) => {
 
     const { user, setUser } = useContext(UserContext);
     const { adminUser, setAdminUser } = useContext(UserContext);
@@ -109,7 +109,7 @@ export const Header = ({ setEvents, displayUserEvents, setDisplayUserEvents, set
             <header className='main-header'>
                 { user?.email ? 
                 <div className='google-account'>
-                    <img src={user.picture} />
+                    <img src={user.picture} alt="User"/>
                     <button className="user-link" title="View Options" disabled={displayOptions} onClick={() => setDisplayOptions(true)}>{user.email}</button>
                 </div>
                 : 
