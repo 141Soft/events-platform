@@ -4,9 +4,9 @@ import { updateCalendar } from "../googleApi";
 import { useGoogleLogin } from "@react-oauth/google";
 import { formatDateTime } from "../utils/parsers";
 import { getUser } from "../googleApi";
-import { postEventParticipant } from "../api";
+import { postEventParticipant, removeDBEvent } from "../api";
 
-export const EventView = ({ eventView, setEventView, listRef, setError, joinedEvents, setJoinedEvents }) => {
+export const EventView = ({ events, setEvents, eventView, setEventView, listRef, joinedEvents, setJoinedEvents, setEventCount }) => {
 
     const eventRef = useRef(null);
     const { user, setUser } = useContext(UserContext);
@@ -16,6 +16,8 @@ export const EventView = ({ eventView, setEventView, listRef, setError, joinedEv
     const [isHidden, setIsHidden] = useState(false);
     const [success, setSuccess] = useState(false);
     const [hasScrolled, setHasScrolled] = useState(false);
+    const [isDeleted, setIsDeleted] = useState(false);
+    const [error, setError] = useState('');
     const { date, time } = formatDateTime(eventView.eventDate);
 
     useEffect(() => {
@@ -29,6 +31,7 @@ export const EventView = ({ eventView, setEventView, listRef, setError, joinedEv
         e.preventDefault();
         listRef.current.scrollIntoView({behavior: 'smooth', block:'end', inline:'center'})
         setIsHidden(true);
+        setSuccess(false);
         setTimeout(()=> {
             setEventView(null);
         }, 500);
@@ -96,8 +99,11 @@ export const EventView = ({ eventView, setEventView, listRef, setError, joinedEv
             };
             if(!joinedEvents.includes(eventView.id) && !pressedJoin){
                 const res = await postEventParticipant(eventView.id, user.email);
-                console.log(res);
-                if(res.status === 200){
+                if(res.data.status === 'failed'){
+                    setError(res.data.msg);
+                    setTimeout(()=> setError(''), 3000);
+                    return false;
+                } else if(res.status === 200){
                     setJoinedEvents(prev => [...prev, eventView.id]);
                     setSuccess("Event Joined!");
                     setTimeout(() => setSuccess(false), 3000);
@@ -112,16 +118,32 @@ export const EventView = ({ eventView, setEventView, listRef, setError, joinedEv
 
     const deleteEvent = async () => {
         try {
-
+            setIsDeleted(true);
+            const res = await removeDBEvent(eventView?.id);
+            const i = events.findIndex((e) => e.id === eventView.id);
+            const indexID = events[i].id;
+            const updatedEvents = events.filter((e) => e.id !== eventView.id);
+            setSuccess(res.msg);
+            setTimeout(() => {
+                setSuccess(false);
+            }, 3000);
+            setEvents(updatedEvents);
+            setEventCount(prev => prev-=1);
         } catch (error) {
-            console.error(error);
+            console.error('Error deleting event:', error);
+            setError('Failed to delete event, please try again.');
+            setIsDeleted(false);
+            setTimeout(()=>{
+                setError('');
+            }, 3000);
             throw error; 
-        }
-    }
+        };
+    };
 
     return (
         <div className="event-view">
-            {success ? <div className="success-indicator">{success}</div> : ''}
+            {success && eventView ? <div className="success-indicator">{success}</div> : ''}
+            {error && eventView ? <p className="error-message">{error}</p> : ''}
             {isHidden ? '' : 
             <>
                 <header>
@@ -131,10 +153,10 @@ export const EventView = ({ eventView, setEventView, listRef, setError, joinedEv
                 <div className="event-view-details">
                     <div>
                         <div className="button-container">
-                            <button className="join-event-button" title="Add Event to Calendar" onClick={addEventToCalendar}>
+                            <button className="join-event-button" title="Add Event to Calendar" disabled={isDeleted} onClick={addEventToCalendar}>
                                 <img src="/assets/calendar.svg" alt="Calendar"/>
                             </button>
-                            <button className="join-event-button" title="Join Event" disabled={joinedEvents.includes(eventView.id)} onClick={joinEvent}>
+                            <button className="join-event-button" title="Join Event" disabled={joinedEvents.includes(eventView.id) || isDeleted} onClick={joinEvent}>
                                 {joinedEvents.includes(eventView.id) ?
                                 '✓'
                                 :    
@@ -142,7 +164,7 @@ export const EventView = ({ eventView, setEventView, listRef, setError, joinedEv
                                 }
                             </button>
                             {adminUser.isAdmin ? 
-                            <button className="delete-event-button" title="Delete Event" disabled={!adminUser.isAdmin} onClick={deleteEvent}>
+                            <button className="delete-event-button" title="Delete Event" disabled={!adminUser.isAdmin || isDeleted} onClick={deleteEvent}>
                                 <img src="/assets/trash-can.svg" alt="Delete"/>
                             </button>
                             : ''}

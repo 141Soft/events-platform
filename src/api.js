@@ -73,7 +73,9 @@ export const postLogin = async (email, password) => {
 
 export const postEventParticipant = async (eventID, userEmail) => {
     try {
+        
         const res = await serverApi.post(`/events/participants?id=${eventID}&email=${userEmail}`);
+        console.log(res);
         return res;
     } catch (err) {
         console.error(err);
@@ -87,6 +89,17 @@ export const getUserEvents = async (userEmail) => {
         return res.data;
     } catch (err) {
         console.error(err);
+        throw err;
+    };
+};
+
+export const removeDBEvent = async (eventID) => {
+    try{
+        const res = await serverApi.delete(`/events/remove?id=${eventID}`, {
+            withCredentials: true,
+        });
+        return res.data;
+    } catch(err) {
         throw err;
     };
 };

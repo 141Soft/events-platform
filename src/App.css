@@ -663,6 +663,7 @@ html, body {
 }
 
 .error-message {
+    z-index: 100;
     background-color: red; 
     padding: 0.4rem;
     width: fit-content;
