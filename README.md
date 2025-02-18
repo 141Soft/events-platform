@@ -54,6 +54,8 @@ To end viewing of a user's events you can either toggle the View Events button i
 
 Events can be added by signing in to an admin account through the Staff Login button, after which an add event button is placed in line with the search bar. Clicking this button brings up a simple form that will configure the event to be added, this is sent in the correct format to the server.
 
+Events can be deleted when an admin user has logged in by navigating to the event, clicking it to bring up it's details and then clicking on the newly appeared red rubbish bin icon. This will optimistically remove the event from the events list but will not close the event view until the user is ready. While viewing a deleted event all functions assosciated with the event are disabled to prevent users adding or deleting phantom events.
+
 ### Version
 Checked against node v23.4.0
 

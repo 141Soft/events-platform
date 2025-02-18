@@ -6,7 +6,7 @@ import { EventView } from "./EventView";
 import { RotatingLines } from "react-loader-spinner";
 import { UserContext } from "../contexts/UserProvider";
 
-export const EventList = ({ searchParams, setEventCount, setError, events, setEvents, eventView, setEventView, isLoading, setIsLoading, displayUserEvents, hasCalendar, setHasCalendar }) => {
+export const EventList = ({ searchParams, setEventCount, setError, events, setEvents, eventView, setEventView, isLoading, setIsLoading, displayUserEvents, setDisplayUserEvents, hasCalendar, setHasCalendar }) => {
     const [totalPages, setTotalPages] = useState(1);
     const [pageRef, setPageRef] = useState(1);
     const [middleIndex, setMiddleIndex] = useState(-1);
@@ -39,6 +39,7 @@ export const EventList = ({ searchParams, setEventCount, setError, events, setEv
     }, [user]);
     
     useEffect(()=> {
+        setDisplayUserEvents(false);
         const loadData = async() => {
             setIsLoading(true);
             try {

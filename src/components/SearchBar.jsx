@@ -4,7 +4,7 @@ import { getTags } from "../api";
 import { UserContext } from "../contexts/UserProvider";
 
 //Would be nice if this could search through tags as well
-export const SearchBar = ({setSearchParams, setError, setDisplayAddEvent}) => {
+export const SearchBar = ({setSearchParams, setError, setDisplayAddEvent, displayUserEvents}) => {
 
     const [value, setValue] = useState("");
     const [searchTags, setSearchTags] = useState([]);
@@ -76,7 +76,7 @@ export const SearchBar = ({setSearchParams, setError, setDisplayAddEvent}) => {
             <div className="searchBar">
                 <button title="Show tags" onClick={() => setRevealTags(prev => !prev)}>{revealTags ?'▲':'▼'}</button>
                 <div>
-                    <input aria-label="Enter Search" type="text" value={value} placeholder="Start typing..." onChange={handleChange}></input>
+                    <input aria-label="Enter Search" type="text" value={value} disabled={displayUserEvents} placeholder={displayUserEvents ? 'Viewing your events' : 'Start typing...'} onChange={handleChange}></input>
                     {adminUser?.isAdmin === 1 ? <button className="add-event" title="Create New Event" onClick={()=>{setDisplayAddEvent(true)}}>＋</button> : ''}
                 </div>
                 
